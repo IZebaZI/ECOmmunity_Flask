@@ -1,0 +1,60 @@
+{%extends "template.html"%}
+
+{% block body %}
+<div class="my-4 d-flex justify-content-center">
+    <span class="h1 ">Puntos de recolección</span>
+</div>
+
+<div class="m-2">
+    <div class="d-flex flex-row">
+        <div class="container col-7">
+            <table class="table table-success table-striped text-center table-bordered border-secondary-subtle">
+                <thead class="text-center">
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Nombre</th>
+                        <th scope="col">Ubicacion</th>
+                        <th scope="col">Hora Inicio</th>
+                        <th scope="col">Hora Final</th>
+                        <th scope="col">Dias</th>
+                        <th scope="col"> -------</th>
+                    </tr>
+                </thead>
+                <tbody class="text-center">
+                    {% for punto in puntos %}
+                    <tr>
+                        <td>{{punto.0}}</td>
+                        <td>{{punto.1}}</td>
+                        <td>{{punto.2}}</td>
+                        <td>{{punto.3}}</td>
+                        <td>{{punto.4}}</td>
+                        <td>{{punto.5}}</td>
+                        <td>
+                            <div class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"> Opciones </a>
+                                <ul class="dropdown-menu">
+                                    <li><a class='dropdown-item text-info' href='#' data-bs-toggle='modal' data-bs-target='#EditarPuntoR{{punto.0}}'>Modificar</a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item text-danger" href="#" data-bs-toggle='modal' data-bs-target='#EliminarPuntoR{{punto.0}}'>Eliminar</a></li>
+                                </ul>
+                            </div>
+                            {% include 'eliminarPuntoR.html' %}
+                            {% include 'modificarPuntoR.html' %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <a class='btn btn-success mt-2' href='#' data-bs-toggle='modal' data-bs-target='#CrearPuntoR'>Agregar Punto de Recolección</a>
+        </div>
+        
+        <div class="container col-5 bg-success-subtle pt-2 rounded-2">
+
+        </div>
+    </div>
+
+
+</div>
+
+{% include 'agregarPuntoR.html' %}
+{% endblock %}

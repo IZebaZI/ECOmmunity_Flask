@@ -1,0 +1,54 @@
+<div class="modal fade" id="CrearPuntoR">
+    <div class="modal-dialog modal-dialog-centered modal-xl" role="dialog" >
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editModalLabel">Agregar punto de recoleccion</h5>
+            </button>
+            </div>
+            <div class="modal-body">
+            <form action="/agregarPunto" method="POST">   
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Nombre</th>
+                                <th scope="col">Ubicación</th>
+                                <th scope="col">Hora de Inicio</th>
+                                <th scope="col">Hora Final</th>
+                                <th scope="col">Días</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <input type="text" class="form-control" name="txtNombreAdd" value="">
+                                </td>
+
+                                <td>
+                                    <input type="text" class="form-control" name="txtUbicacionAdd" value="">
+                                </td>
+
+                                <td>
+                                    <input type="time" class="form-control" name="timeHoraInicioAdd" value="">
+                                </td>
+
+                                <td>
+                                    <input type="time" class="form-control" name="timeHoraFinalAdd" value="">
+                                </td>
+
+                                <td>
+                                    <input type="text" class="form-control" name="txtDiasAdd" value="">
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div> 
+            </div>
+                <div class="modal-footer"> 
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-info" style="color: white;" name="btnActualizarMaterial">Crear Empresa</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

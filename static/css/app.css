@@ -1,0 +1,11 @@
+
+.map{
+    width: 99%;
+}
+
+.bg-img{
+    background-image: url('../img/bg.jpg');
+    background-size: cover;
+    background-color: rgba(175, 230, 175, 0.682); 
+    
+}

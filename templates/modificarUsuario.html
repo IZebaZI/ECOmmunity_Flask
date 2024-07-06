@@ -1,0 +1,53 @@
+<div class="modal fade" id="EditarUsuario{{usuario.0}}">
+    <div class="modal-dialog modal-dialog-centered modal-xl" role="dialog" >
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editModalLabel">Editar usuario</h5>
+            </div>
+            <div class="modal-body">
+            <form action="/editarUsuario/{{usuario.0}}" method="POST">   
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Nombre</th>
+                                <th scope="col">Correo</th>
+                                <th scope="col">Contraseña</th>
+                                <th scope="col">Ubicación</th>
+                                <th scope="col">Permisos</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <input type="text" class="form-control" name="txtNombreEdit" value="{{usuario.1}}">
+                                </td>
+
+                                <td>
+                                    <input type="text" class="form-control" name="txtCorreoEdit" value="{{usuario.2}}">
+                                </td>
+
+                                <td>
+                                    <input type="text" class="form-control" name="txtPasswordEdit" value="{{usuario.3}}">
+                                </td>
+
+                                <td>
+                                    <input type="text" class="form-control" name="txtUbicacionEdit" value="{{usuario.4}}">
+                                </td>
+
+                                <td>
+                                    <input type="text" class="form-control" name="txtPermisosEdit" value="{{usuario.5}}">
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div> 
+            </div>
+                <div class="modal-footer"> 
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-info" style="color: white;" name="btnActualizarMaterial">Guardar Cambios</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
