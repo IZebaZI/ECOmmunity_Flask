@@ -6,38 +6,38 @@
             </button>
             </div>
             <div class="modal-body">
-            <form action="" method="POST">   
+            <form action="/agregarRecoleccion" method="POST">   
                 <div class="table-responsive">
                     <table class="table">
                         <thead>
                             <tr>
                                 <th scope="col">Tipo</th>
                                 <th scope="col">Punto de recolección</th>
-                                <th scope="col">Fecha y hora</th>
+                                <th scope="col">Dia</th>
+                                <th scope="col">Hora</th>
                                 <th scope="col">Cantidad</th>
-                                <th scope="col">Status</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
                                 <td>
-                                    <input type="text" class="form-control" name="txtNombreAdd" id="nombreAg" value="">
+                                    <input type="text" class="form-control" name="txtTipoAdd" value="" required>
                                 </td>
 
                                 <td>
-                                    <input type="text" class="form-control" name="txtNombreAdd" id="nombreAg" value="">
+                                    <input type="text" class="form-control" name="txtPuntoRecoleccionAdd" value="" required>
                                 </td>
 
                                 <td>
-                                    <input type="text" class="form-control" name="txtNombreAdd" id="nombreAg" value="">
+                                    <input type="date" class="form-control" name="txtDiaAdd" value="" required>
                                 </td>
 
                                 <td>
-                                    <input type="text" class="form-control" name="txtNombreAdd" id="nombreAg" value="">
+                                    <input type="time" class="form-control" name="txtHoraAdd" value="" required>
                                 </td>
 
                                 <td>
-                                    <input type="text" class="form-control" name="txtNombreAdd" id="nombreAg" value="">
+                                    <input type="int" class="form-control" name="intCantidadAdd" value="" required>
                                 </td>
                             </tr>
                         </tbody>

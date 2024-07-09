@@ -183,8 +183,54 @@ def deletePunto(id):
 # RECOLECCIONES ------------------------------------------------------------------------------------------------------------
 @app.route('/misRecolecciones')
 def misRecolecciones():
-    return render_template('misRecolecciones.html')
+    try:
+        cursor = mysql.connection.cursor()
+        cursor.execute('SELECT * FROM recolecciones_usuarios')
+        data = cursor.fetchall()
+        cursor.close()
+        return render_template('misRecolecciones.html', recolecciones=data)
+    except Exception as e:
+        print(e)
+        return 'Error al obtener las recolecciones'
 
+@app.route('/agregarRecoleccion', methods=['POST'])
+def agregarRecoleccion():
+    if request.method == 'POST':
+        cursor = mysql.connection.cursor()
+        tipo = request.form['txtTipoAdd']
+        puntoRecoleccion = request.form['txtPuntoRecoleccionAdd']
+        dia = request.form['txtDiaAdd']
+        hora = request.form['txtHoraAdd']
+        cantidad = request.form['intCantidadAdd']
+        cursor.execute('INSERT INTO recolecciones_usuarios (tipo, dia, hora, cantidad, status, punto_recoleccion) VALUES (%s, %s, %s, %s, %s, %s)', (tipo, dia, hora, cantidad, 'Pendiente', puntoRecoleccion))
+        mysql.connection.commit()
+        
+        flash('Punto de recolección agregado correctamente')
+        return redirect(url_for('misRecolecciones'))
+
+@app.route('/editarRecoleccion/<id>', methods=['POST'])
+def editarRecoleccion(id):
+    if request.method == 'POST':
+        cursor = mysql.connection.cursor()
+        tipo = request.form['txtTipoEdit']
+        puntoRecoleccion = request.form['txtPuntoRecoleccionEdit']
+        dia = request.form['txtDiaEdit']
+        hora = request.form['txtHoraEdit']
+        cantidad = request.form['intCantidadEdit']
+        cursor.execute('UPDATE recolecciones_usuarios SET tipo=%s, dia=%s, hora=%s, cantidad=%s, punto_recoleccion=%s WHERE id=%s', (tipo, dia, hora, cantidad, puntoRecoleccion, [id]))
+        mysql.connection.commit()
+
+        flash('Recolección actualizada correctamente')
+        return redirect(url_for('misRecolecciones'))
+
+@app.route('/eliminarRecoleccion/<id>', methods=['POST'])
+def eliminarRecoleccion(id):
+    cursor = mysql.connection.cursor()
+    cursor.execute('DELETE FROM recolecciones_usuarios WHERE id=%s', ([id]))
+    mysql.connection.commit()
+
+    flash('Recolección eliminada correctamente')
+    return redirect(url_for('misRecolecciones'))
 
 # APP ------------------------------------------------------------------------------------------------------------
 @app.errorhandler(404)
