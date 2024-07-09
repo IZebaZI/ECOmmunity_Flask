@@ -1,6 +1,25 @@
 {%extends "template.html"%}
 
 {% block body %}
+{% for mesg in get_flashed_messages() %}
+    {% if mesg == 'SuccessUser' %}
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>Usuario registrado exitosamente</strong> 
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% elif mesg == 'AlertUser' %}
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        <strong>Ocurrio un error al registrar el usuario</strong> 
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% else %}
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <strong>El usuario se eliminó exitosamente</strong> 
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% endif %}
+{% endfor %}
+
 <div class="my-4 d-flex justify-content-center">
     <span class="h1 ">Lista de Usuarios</span>
 </div>
@@ -8,7 +27,7 @@
 <div class="m-5">
     <div class="d-flex">
         <div class="container col-9">
-            <table class="table table-success table-striped text-center table-bordered border-secondary-subtle">
+            <table class="table table-success table-striped text-center table-bordered border-success">
                 <thead class="text-center">
                     <tr>
                         <th scope="col">Id</th>
@@ -16,7 +35,7 @@
                         <th scope="col">Correo</th>
                         <th scope="col">Contraseña</th>
                         <th scope="col">Ubicación</th>
-                        <th scope="col">Permisos</th>
+                        <th scope="col">Rol</th>
                         <th scope="col">Fecha de Creación</th>
                         <th scope="col"> ------- </th>
                     </tr>

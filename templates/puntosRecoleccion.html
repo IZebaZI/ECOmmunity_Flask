@@ -1,6 +1,25 @@
 {%extends "template.html"%}
 
 {% block body %}
+{% for mesg in get_flashed_messages() %}
+    {% if mesg == 'SuccessPoint' %}
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>Punto de recolección registrado exitosamente</strong> 
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% elif mesg == 'AlertPoint' %}
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        <strong>Ocurrio un error al registrar el punto de recolección</strong> 
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% else %}
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <strong>El punto de recolección se eliminó exitosamente</strong> 
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% endif %}
+{% endfor %}
+
 <div class="my-4 d-flex justify-content-center">
     <span class="h1 ">Puntos de recolección</span>
 </div>
@@ -8,16 +27,14 @@
 <div class="m-2">
     <div class="d-flex flex-row">
         <div class="container col-7">
-            <table class="table table-success table-striped text-center table-bordered border-secondary-subtle">
+            <table class="table table-success table-striped text-center table-bordered border-success align-middle">
                 <thead class="text-center">
                     <tr>
                         <th scope="col">ID</th>
                         <th scope="col">Nombre</th>
                         <th scope="col">Ubicacion</th>
-                        <th scope="col">Hora Inicio</th>
-                        <th scope="col">Hora Final</th>
-                        <th scope="col">Dias</th>
-                        <th scope="col"> -------</th>
+                        <th scope="col">Horario</th>
+                        <th scope="col">-------</th>
                     </tr>
                 </thead>
                 <tbody class="text-center">
@@ -26,9 +43,13 @@
                         <td>{{punto.0}}</td>
                         <td>{{punto.1}}</td>
                         <td>{{punto.2}}</td>
-                        <td>{{punto.3}}</td>
-                        <td>{{punto.4}}</td>
-                        <td>{{punto.5}}</td>
+                        <td>
+                            {% for horario in horarios %}
+                                {% if punto.0 == horario.0 %}
+                                {{horario.2}} | {{horario.3}} - {{horario.4}}<br>
+                                {% endif %}
+                            {% endfor %}
+                        </td>
                         <td>
                             <div class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"> Opciones </a>
@@ -48,12 +69,10 @@
             <a class='btn btn-success mt-2' href='#' data-bs-toggle='modal' data-bs-target='#CrearPuntoR'>Agregar Punto de Recolección</a>
         </div>
         
-        <div class="container col-5 bg-success-subtle pt-2 rounded-2">
-
+        <div class="container col-5 bg-success-subtle p-2 rounded-2">
+            <img src="{{ url_for('static', filename='img/map.jpg') }}" class="img-fluid"/>
         </div>
     </div>
-
-
 </div>
 
 {% include 'agregarPuntoR.html' %}

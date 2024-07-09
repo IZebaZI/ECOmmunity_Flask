@@ -1,19 +1,39 @@
 {%extends "template.html"%}
 
 {% block body %}
+{% for mesg in get_flashed_messages() %}
+    {% if mesg == 'SuccessEnterprise' %}
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>Empresa registrada exitosamente</strong> 
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% elif mesg == 'AlertEnterprise' %}
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        <strong>Ocurrio un error al registrar la empresa</strong> 
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% else %}
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <strong>La empresa se eliminó exitosamente</strong> 
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% endif %}
+{% endfor %}
+
 <div class="my-4 d-flex justify-content-center">
     <span class="h1 ">Lista de Empresas</span>
 </div>
 
+
 <div class="m-3">
     <div class="d-flex">
         <div class="container col-9">
-            <table class="table table-success table-striped text-center table-bordered border-secondary-subtle">
+            <table class="table table-success table-striped text-center table-bordered border-success">
                 <thead class="text-center">
                     <tr>
                         <th scope="col">Id</th>
                         <th scope="col">Nombre</th>
-                        <th scope="col">Tipo</th>
+                        <th scope="col">Tipo de Reciclaje</th>
                         <th scope="col">Ubicación</th>
                         <th scope="col">Correo</th>
                         <th scope="col">Teléfono</th>
