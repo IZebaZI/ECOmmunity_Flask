@@ -41,7 +41,7 @@ def insertUsuario():
         password = request.form['txtPasswordAdd']
         ubicacion = request.form['txtUbicacionAdd']
         permisos = request.form['txtPermisosAdd']
-        cursor.execute('INSERT INTO USUARIOS (nombre, correo, password, ubicacion, permisos) VALUES (%s, %s, %s, %s, %s)', (nombre, correo, password, ubicacion, permisos))
+        cursor.execute('INSERT INTO USUARIOS (nombre, correo, password, ubicacion, rol) VALUES (%s, %s, %s, %s, %s)', (nombre, correo, password, ubicacion, permisos))
         mysql.connection.commit()
 
         flash('Usuario agregado correctamente')
