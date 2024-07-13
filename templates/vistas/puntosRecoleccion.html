@@ -1,6 +1,7 @@
-{%extends "template.html"%}
+{%extends 'template.html'%}
 
 {% block body %}
+
 {% for mesg in get_flashed_messages() %}
     {% if mesg == 'SuccessPoint' %}
     <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -59,8 +60,8 @@
                                     <li><a class="dropdown-item text-danger" href="#" data-bs-toggle='modal' data-bs-target='#EliminarPuntoR{{punto.0}}'>Eliminar</a></li>
                                 </ul>
                             </div>
-                            {% include 'eliminarPuntoR.html' %}
-                            {% include 'modificarPuntoR.html' %}
+                            {% include 'modales/eliminarPuntoR.html' %}
+                            {% include 'modales/modificarPuntoR.html' %}
                         </td>
                     </tr>
                     {% endfor %}
@@ -75,5 +76,5 @@
     </div>
 </div>
 
-{% include 'agregarPuntoR.html' %}
+{% include 'modales/agregarPuntoR.html' %}
 {% endblock %}

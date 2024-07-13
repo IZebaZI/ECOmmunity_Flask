@@ -10,9 +10,9 @@ app.secret_key = 'your_secret_key'
 
 mysql = MySQL(app)
 
-@app.route('/')
+@app.route('/home')
 def index():
-    return render_template('homeAdmin.html')
+    return render_template('vistas/homeAdmin.html')
 
 
 # USUARIOS ------------------------------------------------------------------------------------------------------------
@@ -80,11 +80,14 @@ def listaEmpresas():
         cursor.execute('SELECT * FROM empresas')
         data = cursor.fetchall()
         cursor.close()
+        
         cursor = mysql.connection.cursor()
         cursor.execute('SELECT * FROM empresas ORDER BY id DESC LIMIT 5')
         recent = cursor.fetchall()
         cursor.close()
-        return render_template('listaEmpresas.html', empresas=data, recientes=recent)
+        
+        return render_template('vistas/listaEmpresas.html', empresas=data, recientes=recent)
+    
     except Exception as e:
         print(e)
         return 'Error al obtener las empresas'
@@ -136,11 +139,14 @@ def puntosRecoleccion():
         cursor.execute('SELECT * FROM puntos_recoleccion')
         data = cursor.fetchall()
         cursor.close()
+        
         cursor = mysql.connection.cursor()
-        cursor.execute('SELECT id_puntoRecoleccion, nombre, dia, hora_inicio, hora_final FROM puntos_recoleccion INNER JOIN horarios_recoleccion ON puntos_recoleccion.id = horarios_recoleccion.id_puntoRecoleccion')
+        cursor.execute('SELECT hr.id_puntoRecoleccion, pr.nombre, hr.dia, pr.hora_inicio, pr.hora_final FROM puntos_recoleccion pr INNER JOIN horarios_recoleccion hr ON pr.id = hr.id_puntoRecoleccion')
         times = cursor.fetchall()
         cursor.close()
-        return render_template('puntosRecoleccion.html', puntos=data, horarios=times)
+        
+        return render_template('vistas/puntosRecoleccion.html', puntos=data, horarios=times)
+    
     except Exception as e:
         print(e)
         return 'Error al obtener los puntos de recolección'
