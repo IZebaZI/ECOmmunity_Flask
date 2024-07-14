@@ -10,10 +10,23 @@ app.secret_key = 'your_secret_key'
 
 mysql = MySQL(app)
 
-@app.route('/')
+@app.route('/home')
 def index():
-    return render_template('homeAdmin.html')
+    return render_template('views/homeAdmin.html')
 
+
+# LOGIN ------------------------------------------------------------------------------------------------------------
+
+@app.route('/login')
+def login():
+    return render_template('views/login.html')
+
+
+# REGISTER ------------------------------------------------------------------------------------------------------------
+
+@app.route('/register')
+def register():
+    return render_template('views/register.html')
 
 # USUARIOS ------------------------------------------------------------------------------------------------------------
 @app.route('/listaUsuarios')
@@ -27,7 +40,7 @@ def listaUsuarios():
         cursor.execute('SELECT * FROM usuarios ORDER BY id DESC LIMIT 5')
         recent = cursor.fetchall()
         cursor.close()
-        return render_template('listaUsuarios.html', usuarios=data, recientes=recent)
+        return render_template('views/listaUsuarios.html', usuarios=data, recientes=recent)
     except Exception as e:
         print(e)
         return 'Error al obtener los usuarios'
@@ -84,7 +97,7 @@ def listaEmpresas():
         cursor.execute('SELECT * FROM empresas ORDER BY id DESC LIMIT 5')
         recent = cursor.fetchall()
         cursor.close()
-        return render_template('listaEmpresas.html', empresas=data, recientes=recent)
+        return render_template('views/listaEmpresas.html', empresas=data, recientes=recent)
     except Exception as e:
         print(e)
         return 'Error al obtener las empresas'
@@ -136,7 +149,7 @@ def puntosRecoleccion():
         cursor.execute('SELECT * FROM puntos_recoleccion')
         data = cursor.fetchall()
         cursor.close()
-        return render_template('puntosRecoleccion.html', puntos=data)
+        return render_template('views/puntosRecoleccion.html', puntos=data)
     except Exception as e:
         print(e)
         return 'Error al obtener los puntos de recolección'
@@ -188,7 +201,7 @@ def misRecolecciones():
         cursor.execute('SELECT * FROM recolecciones_usuarios')
         data = cursor.fetchall()
         cursor.close()
-        return render_template('misRecolecciones.html', recolecciones=data)
+        return render_template('views/misRecolecciones.html', recolecciones=data)
     except Exception as e:
         print(e)
         return 'Error al obtener las recolecciones'

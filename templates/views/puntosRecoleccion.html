@@ -1,0 +1,78 @@
+{%extends "template.html"%}
+
+{% block body %}
+<div class="mt-4 d-flex justify-content-center">
+    <span class="h1 ">Puntos de recolección</span>
+</div>
+
+<div class=" p-5">
+    <div class="d-flex flex-row">
+        <div class="container col-5">
+            
+            {% for punto in puntos%}
+
+            <div class="card mb-3">
+                <h5 class="card-header border border-success border-2 bg-success-subtle">{{ punto[1]}}</h5>
+                <div class="card-body border border-success border-2 border-top-0">
+                    <div class="d-flex justify-content-between">
+                        <div class="">
+                            <div class="d-flex">
+                                <i class="bi bi-geo-alt-fill me-2"></i>
+                                <span class="card-title me-2 fw-bold">Ubicación:</span>
+                                <p class="card-text">{{ punto[2] }}</p>
+                            </div>
+                            <div class="d-flex">
+                                <i class="bi bi-clock-fill me-2"></i>
+                                <span class="card-title me-2 fw-bold">Horarios:</span>
+                                <p class="card-text">De {{ punto[3] }} a {{ punto[4] }}</p>
+                            </div>
+                            <div class="d-flex">
+                                <i class="bi bi-calendar-event-fill me-2 "></i>
+                                <span class="card-title me-2 fw-bold">Días de atención:</span>
+                                <p class="card-text">{{ punto[5] }}</p>
+                            </div>
+                        </div>
+
+                        <div class="flex justify-content-end row p-2 w-50">
+                            
+                            <a href="#" class="btn text-danger">
+                                Mostrar en el mapa
+                                <i class="bi bi-box-arrow-up-right ms-2"></i>
+                            </a>
+                            
+                            <div class="nav-item dropdown mt-3 text-center">
+                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Opciones</a>
+                                <ul class="dropdown-menu">
+                                    <li><a class='dropdown-item text-info' href='#' data-bs-toggle='modal' data-bs-target='#EditarPuntoR{{punto.0}}'>Modificar</a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item text-danger" href="#" data-bs-toggle='modal' data-bs-target='#EliminarPuntoR{{punto.0}}'>Eliminar</a></li>
+                                </ul>
+                            </div>
+
+                            {% include 'modals/eliminarPuntoR.html' %}
+                            {% include 'modals/modificarPuntoR.html' %}  
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            {% endfor %}
+
+        </div>
+        
+        <div class="container col-7 pt-2 rounded-2">
+            <img src="../../static/img/map.jpg" alt="" class="map">
+
+            <div class="d-flex justify-content-end">
+                <a class='btn btn-success mt-5' href='#' data-bs-toggle='modal' data-bs-target='#CrearPuntoR'>Agregar Punto de Recolección</a>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+{% include 'modals/agregarPuntoR.html' %}
+{% endblock %}
