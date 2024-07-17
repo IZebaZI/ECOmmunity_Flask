@@ -17,7 +17,7 @@ def index():
 
 # LOGIN ------------------------------------------------------------------------------------------------------------
 
-@app.route('/login')
+@app.route('/')
 def login():
     return render_template('views/login.html')
 
