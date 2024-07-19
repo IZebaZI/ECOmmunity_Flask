@@ -2,19 +2,24 @@
 
 {% block body %}
 {% for mesg in get_flashed_messages() %}
-    {% if mesg == 'SuccessUser' %}
+    {% if mesg == 'SuccessAdd' %}
     <div class="alert alert-success alert-dismissible fade show" role="alert">
         <strong>Usuario registrado exitosamente</strong> 
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
-    {% elif mesg == 'AlertUser' %}
-    <div class="alert alert-warning alert-dismissible fade show" role="alert">
-        <strong>Ocurrio un error al registrar el usuario</strong> 
+    {% elif mesg == 'SuccessEdit' %}
+    <div class="alert alert-info alert-dismissible fade show" role="alert">
+        <strong>Usuario editado exitosamente</strong> 
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% elif mesg == 'SuccessDelete' %}
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>Usuario eliminado exitosamente</strong> 
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
     {% else %}
-    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-        <strong>El usuario se eliminó exitosamente</strong> 
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        <strong>¡Ocurrió un error inesperado!</strong> 
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
     {% endif %}

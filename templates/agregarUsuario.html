@@ -14,29 +14,32 @@
                                 <th scope="col">Correo</th>
                                 <th scope="col">Contraseña</th>
                                 <th scope="col">Ubicación</th>
-                                <th scope="col">Permisos</th>
+                                <th scope="col">Rol</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
                                 <td>
-                                    <input type="text" class="form-control" name="txtNombreAdd" value="" required>
+                                    <input type="text" class="form-control" name="txtNombreAdd" value="" required pattern="\S+.*">
                                 </td>
 
                                 <td>
-                                    <input type="text" class="form-control" name="txtCorreoAdd" value="" required>
+                                    <input type="email" class="form-control" name="txtCorreoAdd" value="" required pattern="\S+.*">
                                 </td>
 
                                 <td>
-                                    <input type="text" class="form-control" name="txtPasswordAdd" value="" required>
+                                    <input type="text" class="form-control" name="txtPasswordAdd" value="" required pattern="\S+.*">
                                 </td>
 
                                 <td>
-                                    <input type="text" class="form-control" name="txtUbicacionAdd" value="" required>
+                                    <input type="text" class="form-control" name="txtUbicacionAdd" value="" required pattern="\S+.*">
                                 </td>
 
                                 <td>
-                                    <input type="text" class="form-control" name="txtPermisosAdd" value="" required>
+                                    <select class="form-select" name="txtRolAdd" required>
+                                        <option selected value="Usuario">Usuario</option>
+                                        <option value="Administrador">Administrador</option>
+                                    </select>
                                 </td>
                             </tr>
                         </tbody>

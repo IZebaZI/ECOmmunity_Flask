@@ -40,11 +40,11 @@ def insertUsuario():
         correo = request.form['txtCorreoAdd']
         password = request.form['txtPasswordAdd']
         ubicacion = request.form['txtUbicacionAdd']
-        rol = request.form['txtPermisosAdd']
+        rol = request.form['txtRolAdd']
         cursor.execute('INSERT INTO USUARIOS (nombre, correo, password, ubicacion, rol) VALUES (%s, %s, %s, %s, %s)', (nombre, correo, password, ubicacion, rol))
         mysql.connection.commit()
 
-        flash('SuccessUser')
+        flash('SuccessAdd')
         return redirect(url_for('listaUsuarios'))
 
 @app.route('/editarUsuario/<id>', methods=['POST'])
@@ -55,11 +55,11 @@ def updateUsuario(id):
         correo = request.form['txtCorreoEdit']
         password = request.form['txtPasswordEdit']
         ubicacion = request.form['txtUbicacionEdit']
-        permisos = request.form['txtPermisosEdit']
-        cursor.execute('UPDATE USUARIOS SET nombre=%s, correo=%s, password=%s, ubicacion=%s, permisos=%s WHERE id=%s', (nombre, correo, password, ubicacion, permisos, [id]))
+        rol = request.form['txtRolEdit']
+        cursor.execute('UPDATE USUARIOS SET nombre=%s, correo=%s, password=%s, ubicacion=%s, rol=%s WHERE id=%s', (nombre, correo, password, ubicacion, rol, [id]))
         mysql.connection.commit()
 
-        flash('AlertUser')
+        flash('SuccessEdit')
         return redirect(url_for('listaUsuarios'))
 
 @app.route('/eliminarUsuario/<id>', methods=['POST'])
@@ -68,7 +68,7 @@ def deleteUsuario(id):
     cursor.execute('DELETE FROM USUARIOS WHERE id=%s', ([id]))
     mysql.connection.commit()
 
-    flash('DeleteUser')
+    flash('SuccessDelete')
     return redirect(url_for('listaUsuarios'))
 
 
@@ -84,7 +84,11 @@ def listaEmpresas():
         cursor.execute('SELECT * FROM empresas ORDER BY id DESC LIMIT 5')
         recent = cursor.fetchall()
         cursor.close()
-        return render_template('listaEmpresas.html', empresas=data, recientes=recent)
+        cursor = mysql.connection.cursor()
+        cursor.execute('SELECT * FROM tipos_reciclajes_empresas')
+        types = cursor.fetchall()
+        cursor.close()
+        return render_template('listaEmpresas.html', empresas=data, recientes=recent, tipos=types)
     except Exception as e:
         print(e)
         return 'Error al obtener las empresas'
@@ -94,30 +98,64 @@ def insertEmpresa():
     if request.method == 'POST':
         cursor = mysql.connection.cursor()
         nombre = request.form['txtNombreAdd']
-        tipo = request.form['txtTipoAdd']
         ubicacion = request.form['txtUbicacionAdd']
         correo = request.form['txtCorreoAdd']
         telefono = request.form['intTelefonoAdd']
-        cursor.execute('INSERT INTO empresas (nombre, tipo, ubicacion, correo, telefono) VALUES (%s, %s, %s, %s, %s)', (nombre, tipo, ubicacion, correo, telefono))
+        cursor.execute('INSERT INTO empresas (nombre, ubicacion, correo, telefono) VALUES (%s, %s, %s, %s)', (nombre, ubicacion, correo, telefono))
         mysql.connection.commit()
+        cursor.close()
+        
+        cursor = mysql.connection.cursor()
+        cursor.execute('SELECT * FROM empresas ORDER BY id DESC LIMIT 1')
+        id = cursor.fetchone()[0]
+        cursor.close()
+        cursor = mysql.connection.cursor()
+        for i in range(1, 11):
+            if request.form.get('check'+str(i)):
+                validation = True
+                tipo = request.form.get('check'+str(i))
+                cursor.execute('INSERT INTO tipos_reciclajes_empresas (tipo_reciclaje, id_empresa) VALUES (%s, %s)', (tipo, id))
+                mysql.connection.commit()
+        cursor.close()
+        if validation:
+            flash('SuccessAdd')
+            return redirect(url_for('listaEmpresas'))
+        else:
+            flash('ErrorAdd')
+            return redirect(url_for('listaEmpresas'))
 
-        flash('SuccessEnterprise')
-        return redirect(url_for('listaEmpresas'))
 
 @app.route('/editarEmpresa/<id>', methods=['POST'])
 def updateEmpresa(id):
     if request.method == 'POST':
         cursor = mysql.connection.cursor()
         nombre = request.form['txtNombreEdit']
-        tipo = request.form['txtTipoEdit']
         ubicacion = request.form['txtUbicacionEdit']
         correo = request.form['txtCorreoEdit']
         telefono = request.form['intTelefonoEdit']
-        cursor.execute('UPDATE empresas SET nombre=%s, tipo=%s, ubicacion=%s, correo=%s, telefono=%s WHERE id=%s', (nombre, tipo, ubicacion, correo, telefono, [id]))
+        cursor.execute('UPDATE empresas SET nombre=%s, ubicacion=%s, correo=%s, telefono=%s WHERE id=%s', (nombre, ubicacion, correo, telefono, [id]))
         mysql.connection.commit()
+        cursor.close()
 
-        flash('AlertEnterprise')
-        return redirect(url_for('listaEmpresas'))
+        cursor = mysql.connection.cursor()
+        cursor.execute('DELETE FROM tipos_reciclajes_empresas WHERE id_empresa=%s', ([id]))
+        mysql.connection.commit()
+        cursor.close()
+
+        cursor = mysql.connection.cursor()
+        for i in range(1, 11):
+            if request.form.get('editcheck'+str(i)):
+                validation = True
+                tipo = request.form.get('editcheck'+str(i))
+                cursor.execute('INSERT INTO tipos_reciclajes_empresas (tipo_reciclaje, id_empresa) VALUES (%s, %s)', (tipo, id))
+                mysql.connection.commit()
+        cursor.close()
+        if validation:
+            flash('SuccessEdit')
+            return redirect(url_for('listaEmpresas'))
+        else:
+            flash('ErrorEdit')
+            return redirect(url_for('listaEmpresas'))
     
 @app.route('/eliminarEmpresa/<id>', methods=['POST'])
 def deleteEmpresa(id):
@@ -125,7 +163,7 @@ def deleteEmpresa(id):
     cursor.execute('DELETE FROM empresas WHERE id=%s', ([id]))
     mysql.connection.commit()
 
-    flash('DeleteEnterprise')
+    flash('SuccessDelete')
     return redirect(url_for('listaEmpresas'))
 
 # PUNTOS DE RECOLECCION ----------------------------------------------------------------------------------------------------
