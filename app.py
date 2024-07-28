@@ -11,8 +11,17 @@ app.secret_key = 'your_secret_key'
 mysql = MySQL(app)
 
 @app.route('/')
+@app.route('/login')
+def login():
+    return render_template('views/login.html')
+
+@app.route('/register')
+def register():
+    return render_template('views/register.html')
+
+@app.route('/home')
 def index():
-    return render_template('homeAdmin.html')
+    return render_template('views/homeAdmin.html')
 
 
 # USUARIOS ------------------------------------------------------------------------------------------------------------
@@ -20,14 +29,14 @@ def index():
 def listaUsuarios():
     try:
         cursor = mysql.connection.cursor()
-        cursor.execute('SELECT * FROM usuarios')
+        cursor.callproc('SP_SelectUsuarios')
         data = cursor.fetchall()
         cursor.close()
         cursor = mysql.connection.cursor()
-        cursor.execute('SELECT * FROM usuarios ORDER BY id DESC LIMIT 5')
+        cursor.callproc('SP_Select_Usuarios_Recientes')
         recent = cursor.fetchall()
         cursor.close()
-        return render_template('listaUsuarios.html', usuarios=data, recientes=recent)
+        return render_template('views/listaUsuarios.html', usuarios=data, recientes=recent)
     except Exception as e:
         print(e)
         return 'Error al obtener los usuarios'
@@ -41,7 +50,7 @@ def insertUsuario():
         password = request.form['txtPasswordAdd']
         ubicacion = request.form['txtUbicacionAdd']
         rol = request.form['txtRolAdd']
-        cursor.execute('INSERT INTO USUARIOS (nombre, correo, password, ubicacion, rol) VALUES (%s, %s, %s, %s, %s)', (nombre, correo, password, ubicacion, rol))
+        cursor.callproc('SP_InsertUsuario', (nombre, correo, password, ubicacion, rol))
         mysql.connection.commit()
 
         flash('SuccessAdd')
@@ -56,7 +65,7 @@ def updateUsuario(id):
         password = request.form['txtPasswordEdit']
         ubicacion = request.form['txtUbicacionEdit']
         rol = request.form['txtRolEdit']
-        cursor.execute('UPDATE USUARIOS SET nombre=%s, correo=%s, password=%s, ubicacion=%s, rol=%s WHERE id=%s', (nombre, correo, password, ubicacion, rol, [id]))
+        cursor.callproc('SP_UpdateUsuario', (nombre, correo, password, ubicacion, rol, [id]))
         mysql.connection.commit()
 
         flash('SuccessEdit')
@@ -65,7 +74,7 @@ def updateUsuario(id):
 @app.route('/eliminarUsuario/<id>', methods=['POST'])
 def deleteUsuario(id):
     cursor = mysql.connection.cursor()
-    cursor.execute('DELETE FROM USUARIOS WHERE id=%s', ([id]))
+    cursor.callproc('SP_DeleteUsuario', ([id]))
     mysql.connection.commit()
 
     flash('SuccessDelete')
@@ -77,18 +86,18 @@ def deleteUsuario(id):
 def listaEmpresas():
     try:
         cursor = mysql.connection.cursor()
-        cursor.execute('SELECT * FROM empresas')
+        cursor.callproc('SP_SelectEmpresas')
         data = cursor.fetchall()
         cursor.close()
         cursor = mysql.connection.cursor()
-        cursor.execute('SELECT * FROM empresas ORDER BY id DESC LIMIT 5')
+        cursor.callproc('SP_Select_Empresas_Recientes')
         recent = cursor.fetchall()
         cursor.close()
         cursor = mysql.connection.cursor()
-        cursor.execute('SELECT * FROM tipos_reciclajes_empresas')
+        cursor.callproc('SP_Select_Tipos_Reciclajes_Empresas')
         types = cursor.fetchall()
         cursor.close()
-        return render_template('listaEmpresas.html', empresas=data, recientes=recent, tipos=types)
+        return render_template('views/listaEmpresas.html', empresas=data, recientes=recent, tipos=types)
     except Exception as e:
         print(e)
         return 'Error al obtener las empresas'
@@ -101,20 +110,17 @@ def insertEmpresa():
         ubicacion = request.form['txtUbicacionAdd']
         correo = request.form['txtCorreoAdd']
         telefono = request.form['intTelefonoAdd']
-        cursor.execute('INSERT INTO empresas (nombre, ubicacion, correo, telefono) VALUES (%s, %s, %s, %s)', (nombre, ubicacion, correo, telefono))
+        cursor.execute('SELECT F_InsertEmpresa(%s, %s, %s, %s)', (nombre, ubicacion, correo, telefono))
+        id = cursor.fetchone()[0]
         mysql.connection.commit()
         cursor.close()
-        
-        cursor = mysql.connection.cursor()
-        cursor.execute('SELECT * FROM empresas ORDER BY id DESC LIMIT 1')
-        id = cursor.fetchone()[0]
-        cursor.close()
+
         cursor = mysql.connection.cursor()
         for i in range(1, 11):
             if request.form.get('check'+str(i)):
                 validation = True
                 tipo = request.form.get('check'+str(i))
-                cursor.execute('INSERT INTO tipos_reciclajes_empresas (tipo_reciclaje, id_empresa) VALUES (%s, %s)', (tipo, id))
+                cursor.callproc('SP_Insert_Tipos_Reciclaje_Empresa', (tipo, id))
                 mysql.connection.commit()
         cursor.close()
         if validation:
@@ -133,12 +139,7 @@ def updateEmpresa(id):
         ubicacion = request.form['txtUbicacionEdit']
         correo = request.form['txtCorreoEdit']
         telefono = request.form['intTelefonoEdit']
-        cursor.execute('UPDATE empresas SET nombre=%s, ubicacion=%s, correo=%s, telefono=%s WHERE id=%s', (nombre, ubicacion, correo, telefono, [id]))
-        mysql.connection.commit()
-        cursor.close()
-
-        cursor = mysql.connection.cursor()
-        cursor.execute('DELETE FROM tipos_reciclajes_empresas WHERE id_empresa=%s', ([id]))
+        cursor.callproc('SP_UpdateEmpresa', (nombre, ubicacion, correo, telefono, [id]))
         mysql.connection.commit()
         cursor.close()
 
@@ -147,7 +148,7 @@ def updateEmpresa(id):
             if request.form.get('editcheck'+str(i)):
                 validation = True
                 tipo = request.form.get('editcheck'+str(i))
-                cursor.execute('INSERT INTO tipos_reciclajes_empresas (tipo_reciclaje, id_empresa) VALUES (%s, %s)', (tipo, id))
+                cursor.callproc('SP_Insert_Tipos_Reciclaje_Empresa', (tipo, id))
                 mysql.connection.commit()
         cursor.close()
         if validation:
@@ -160,7 +161,7 @@ def updateEmpresa(id):
 @app.route('/eliminarEmpresa/<id>', methods=['POST'])
 def deleteEmpresa(id):
     cursor = mysql.connection.cursor()
-    cursor.execute('DELETE FROM empresas WHERE id=%s', ([id]))
+    cursor.callproc('SP_DeleteEmpresa', ([id]))
     mysql.connection.commit()
 
     flash('SuccessDelete')
@@ -171,14 +172,14 @@ def deleteEmpresa(id):
 def puntosRecoleccion():
     try:
         cursor = mysql.connection.cursor()
-        cursor.execute('SELECT * FROM puntos_recoleccion')
+        cursor.callproc('SP_SelectPuntosRecoleccion')
         data = cursor.fetchall()
         cursor.close()
         cursor = mysql.connection.cursor()
-        cursor.execute('SELECT id_puntoRecoleccion, nombre, dia, hora_inicio, hora_final FROM puntos_recoleccion INNER JOIN horarios_recoleccion ON puntos_recoleccion.id = horarios_recoleccion.id_puntoRecoleccion')
+        cursor.callproc('SP_Select_Horarios_Puntos_Recoleccion')
         times = cursor.fetchall()
         cursor.close()
-        return render_template('puntosRecoleccion.html', puntos=data, horarios=times)
+        return render_template('views/puntosRecoleccion.html', puntos=data, horarios=times)
     except Exception as e:
         print(e)
         return 'Error al obtener los puntos de recolección'
@@ -189,14 +190,37 @@ def insertPunto():
         cursor = mysql.connection.cursor()
         nombre = request.form['txtNombreAdd']
         ubicacion = request.form['txtUbicacionAdd']
-        hora_inicio = request.form['timeHoraInicioAdd']
-        hora_final = request.form['timeHoraFinalAdd']
-        dias = request.form['txtDiasAdd']
-        cursor.execute('INSERT INTO puntos_recoleccion (nombre, ubicacion, hora_inicio, hora_final, dias) VALUES (%s, %s, %s, %s, %s)', (nombre, ubicacion, hora_inicio, hora_final, dias))
+        cursor.execute('SELECT F_InsertPuntoRecoleccion(%s, %s)', (nombre, ubicacion))
         mysql.connection.commit()
-        
-        flash('SuccessPoint')
-        return redirect(url_for('puntosRecoleccion'))
+        id = cursor.fetchone()[0]
+        cursor.close()
+
+        cursor = mysql.connection.cursor()
+        for i in range(1, 8):
+            if request.form.get('check'+str(i)):
+                validation = True
+                dia = request.form.get('check'+str(i))
+                hora_inicio = request.form['timeStart'+str(i)]
+                hora_final = request.form['timeEnd'+str(i)]
+                if hora_inicio != '' and hora_final != '': 
+                    filledInputs = True
+                    cursor.callproc('SP_Insert_Horarios_Recoleccion', (hora_inicio, hora_final, dia, id))
+                    mysql.connection.commit()
+                else:
+                    filledInputs = False
+                    cursor.callproc('SP_DeleteHorarios', ([id]))
+                    mysql.connection.commit()
+                    cursor.callproc('SP_DeletePuntosRecoleccion', ([id]))
+                    mysql.connection.commit()
+                    break
+        cursor.close()
+
+        if validation and filledInputs:
+            flash('SuccessAdd')
+            return redirect(url_for('puntosRecoleccion'))
+        else:
+            flash('ErrorAdd')
+            return redirect(url_for('puntosRecoleccion'))
     
 @app.route('/editarPunto/<id>', methods=['POST'])
 def updatePunto(id):
@@ -204,28 +228,108 @@ def updatePunto(id):
         cursor = mysql.connection.cursor()
         nombre = request.form['txtNombreEdit']
         ubicacion = request.form['txtUbicacionEdit']
-        hora_inicio = request.form['timeInicioEdit']
-        hora_final = request.form['timeFinalEdit']
-        dias = request.form['txtDiasEdit']
-        cursor.execute('UPDATE puntos_recoleccion SET nombre=%s, ubicacion=%s, hora_inicio=%s, hora_final=%s, dias=%s WHERE id=%s', (nombre, ubicacion, hora_inicio, hora_final, dias, [id]))
+        cursor.callproc('SP_UpdatePuntoRecoleccion', (nombre, ubicacion, [id]))
         mysql.connection.commit()
+        cursor.close()
 
-        flash('AlertPoint')
-        return redirect(url_for('puntosRecoleccion'))
+        validation = False
+        for i in range(1, 8):
+            if request.form.get('check'+str(i)):
+                validation = True
+                hora_inicio = request.form['timeStart'+str(i)]
+                hora_final = request.form['timeEnd'+str(i)]
+                if hora_inicio != '' and hora_final != '': 
+                    filledInputs = True
+                else:
+                    filledInputs = False
+                    break
+
+        if validation and filledInputs:
+            cursor = mysql.connection.cursor()
+            cursor.callproc('SP_DeleteHorarios', ([id]))
+            mysql.connection.commit()
+            cursor.close()
+
+            cursor = mysql.connection.cursor()
+            for i in range(1, 8):
+                if request.form.get('check'+str(i)):
+                    dia = request.form.get('check'+str(i))
+                    hora_inicio = request.form['timeStart'+str(i)]
+                    hora_final = request.form['timeEnd'+str(i)]
+                    cursor.callproc('SP_Insert_Horarios_Recoleccion', (hora_inicio, hora_final, dia, id))
+                    mysql.connection.commit()
+            cursor.close()
+            flash('SuccessEdit')
+            return redirect(url_for('puntosRecoleccion'))
+        else:
+            flash('ErrorEdit')
+            return redirect(url_for('puntosRecoleccion'))
 
 @app.route('/eliminarPunto/<id>', methods=['POST'])
 def deletePunto(id):
     cursor = mysql.connection.cursor()
-    cursor.execute('DELETE FROM puntos_recoleccion WHERE id=%s', ([id]))
+    cursor.callproc('SP_DeletePuntosRecoleccion', ([id]))
     mysql.connection.commit()
 
-    flash('DeletePoint')
+    flash('SuccessDelete')
     return redirect(url_for('puntosRecoleccion'))
 
 # RECOLECCIONES ------------------------------------------------------------------------------------------------------------
 @app.route('/misRecolecciones')
 def misRecolecciones():
-    return render_template('misRecolecciones.html')
+    try:
+        cursor = mysql.connection.cursor()
+        cursor.callproc('SP_SelectRecoleccionesUsuario')
+        data = cursor.fetchall()
+        cursor.close()
+        cursor = mysql.connection.cursor()
+        cursor.callproc('SP_SelectPuntosRecoleccion')
+        points = cursor.fetchall()
+        cursor.close()
+        return render_template('views/misRecolecciones.html', recolecciones=data, puntos=points)
+    except Exception as e:
+        print(e)
+        return 'Error al obtener las recolecciones'
+
+@app.route('/agregarRecoleccion', methods=['POST'])
+def agregarRecoleccion():
+    if request.method == 'POST':
+        cursor = mysql.connection.cursor()
+        tipo = request.form['txtTipoAdd']
+        idPuntoRecoleccion = request.form['idPuntoAdd']
+        dia = request.form['txtDiaAdd']
+        hora = request.form['txtHoraAdd']
+        cantidad = request.form['floatCantidadAdd']
+        id = 1
+        cursor.callproc('SP_InsertRecoleccion', (tipo, dia, hora, cantidad, 'Pendiente', idPuntoRecoleccion, id))
+        mysql.connection.commit()
+        
+        flash('SuccessAdd')
+        return redirect(url_for('misRecolecciones'))
+
+@app.route('/editarRecoleccion/<id>', methods=['POST'])
+def editarRecoleccion(id):
+    if request.method == 'POST':
+        cursor = mysql.connection.cursor()
+        tipo = request.form['txtTipoEdit']
+        idPuntoRecoleccion = request.form['idPuntoEdit']
+        dia = request.form['txtDiaEdit']
+        hora = request.form['txtHoraEdit']
+        cantidad = request.form['floatCantidadEdit']
+        cursor.callproc('SP_UpdateRecoleccion', (tipo, dia, hora, cantidad, idPuntoRecoleccion, [id]))
+        mysql.connection.commit()
+
+        flash('SuccessEdit')
+        return redirect(url_for('misRecolecciones'))
+
+@app.route('/eliminarRecoleccion/<id>', methods=['POST'])
+def eliminarRecoleccion(id):
+    cursor = mysql.connection.cursor()
+    cursor.callproc('SP_DeleteRecoleccion', ([id]))
+    mysql.connection.commit()
+
+    flash('SuccessDelete')
+    return redirect(url_for('misRecolecciones'))
 
 
 # APP ------------------------------------------------------------------------------------------------------------

@@ -1,20 +1,25 @@
-{%extends "template.html"%}
+{%extends "layouts/template.html"%}
 
 {% block body %}
 {% for mesg in get_flashed_messages() %}
-    {% if mesg == 'SuccessPoint' %}
+    {% if mesg == 'SuccessAdd' %}
     <div class="alert alert-success alert-dismissible fade show" role="alert">
         <strong>Punto de recolección registrado exitosamente</strong> 
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
-    {% elif mesg == 'AlertPoint' %}
-    <div class="alert alert-warning alert-dismissible fade show" role="alert">
-        <strong>Ocurrio un error al registrar el punto de recolección</strong> 
+    {% elif mesg == 'SuccessEdit' %}
+    <div class="alert alert-info alert-dismissible fade show" role="alert">
+        <strong>Punto de recoleccion editado exitosamente</strong> 
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% elif mesg == 'SuccessDelete' %}
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>Punto de recoleccion eliminado exitosamente</strong> 
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
     {% else %}
-    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-        <strong>El punto de recolección se eliminó exitosamente</strong> 
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        <strong>¡Ocurrió un error inesperado!</strong> 
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
     {% endif %}
@@ -59,8 +64,8 @@
                                     <li><a class="dropdown-item text-danger" href="#" data-bs-toggle='modal' data-bs-target='#EliminarPuntoR{{punto.0}}'>Eliminar</a></li>
                                 </ul>
                             </div>
-                            {% include 'eliminarPuntoR.html' %}
-                            {% include 'modificarPuntoR.html' %}
+                            {% include 'components/modals/delete/eliminarPuntoR.html' %}
+                            {% include 'components/modals/edit/modificarPuntoR.html' %}
                         </td>
                     </tr>
                     {% endfor %}
@@ -75,5 +80,5 @@
     </div>
 </div>
 
-{% include 'agregarPuntoR.html' %}
+{% include 'components/modals/add/agregarPuntoR.html' %}
 {% endblock %}

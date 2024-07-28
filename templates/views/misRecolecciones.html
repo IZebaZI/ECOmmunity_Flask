@@ -1,0 +1,220 @@
+{%extends "layouts/template.html"%}
+
+{% block body %}
+{% for mesg in get_flashed_messages() %}
+    {% if mesg == 'SuccessAdd' %}
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>Recolección registrada exitosamente</strong> 
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% elif mesg == 'SuccessEdit' %}
+    <div class="alert alert-info alert-dismissible fade show" role="alert">
+        <strong>Recoleccion editada exitosamente</strong> 
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% elif mesg == 'SuccessDelete' %}
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>Recoleccion cancelada exitosamente</strong> 
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% else %}
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        <strong>¡Ocurrió un error inesperado!</strong> 
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% endif %}
+{% endfor %}
+
+<div class="my-4 d-flex justify-content-center">
+    <span class="h1 ">Mis Recolecciones</span>
+</div>
+
+<div class="m-3">
+    <div class="d-flex flex-row">
+        <div class="container col-7">
+            <table class="table table-success table-striped text-center table-bordered border-secondary-subtle rounded-3">
+                <thead class="text-center">
+                    <tr>
+                        <th scope="col">Tipo</th>
+                        <th scope="col">Punto de recolección</th>
+                        <th scope="col">Día</th>
+                        <th scope="col">Hora</th>
+                        <th scope="col">Cantidad</th>
+                        <th scope="col">Status</th>
+                        <th scope="col"> ------- </th>
+                    </tr>
+                </thead>
+                <tbody class="text-center">
+                    <tr>
+                        {% for recoleccion in recolecciones %}
+                        <td>{{recoleccion.1}}</td>
+                        <td>{{recoleccion.6}}</td>
+                        <td>{{recoleccion.2}}</td>
+                        <td>{{recoleccion.3}}</td>
+                        <td>{{recoleccion.4}} KG</td>
+                        <td>{{recoleccion.5}}</td>
+                        <td>
+                            {% if recoleccion.5 == 'Pendiente'%}
+                            <div class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"> Opciones </a>
+                                <ul class="dropdown-menu">
+                                    <li><a class='dropdown-item text-info' href='#' data-bs-toggle='modal' data-bs-target='#EditarRecoleccion{{recoleccion.0}}'>Modificar</a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item text-danger" href="#" data-bs-toggle='modal' data-bs-target='#EliminarRecoleccion{{recoleccion.0}}'>Cancelar</a></li>
+                                </ul>
+                            </div>
+                            {% else %}
+                            <div class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"> Opciones </a>
+                                <ul class="dropdown-menu">
+                                    <li class='dropdown-item text-info' href='#'>No hay opciones disponibles</li>
+                                </ul>
+                            {% endif %}
+                            {% include 'components/modals/delete/eliminarRecoleccion.html' %}
+                            {% include 'components/modals/edit/modificarRecoleccion.html' %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            <a class='btn btn-success mt-2' href='#' data-bs-toggle='modal' data-bs-target='#AgregarRecoleccion'>Agregar Recoleccion</a>
+
+        </div>
+
+        <div class="container d-flex col-5 bg-success-subtle p-2 rounded-2">
+            <img src="{{ url_for('static', filename='img/map.jpg') }}" class="img-fluid"/>
+        </div>
+        
+    </div>
+
+
+</div>
+
+
+<div class="my-4 d-flex justify-content-center">
+    <span class="h1">Recolecciones Pendientes</span>
+</div>
+<div class="container justify-content-center">
+    <div class="row g-5 justify-content-center">
+        {% for recoleccion in recolecciones %}
+        {% if recoleccion.5 == 'Pendiente' %}
+        <div class="col-4">
+            <div class="card">
+                <div class="card-body">
+                    
+                    <h5 class="card-title">Fecha: {{recoleccion.2}} <br> Hora: {{recoleccion.3}}</h5>
+                <h6 class="card-subtitle mb-2 text-body-secondary">Punto de recoleccion: {{recoleccion.6}}</h6>
+
+                <div class="d-flex align-middle mt-1">
+                    <i class="fa-solid fa-bottle-water ms-1 me-2 mt-1"></i>
+                    <span class="card-text fw-bold">Tipo: &nbsp;</span> 
+                    <span class="card-text">{{recoleccion.1}}</span> 
+                </div>
+
+                <div class="d-flex align-middle mt-1">
+                    <i class="bi bi-box-seam me-2"></i>
+                    <span class="card-text fw-bold">Cantidad: &nbsp;</span> 
+                    <span class="card-text ">{{recoleccion.4}} KG</span> 
+                </div>
+                
+                <div class="d-flex align-middle mt-1">
+                    <i class="bi bi-check-lg me-2"></i>
+                    <span class="card-text fw-bold">Estado: &nbsp;</span>
+                    <span class="card-text">{{recoleccion.5}}</span> 
+                </div>
+                
+                </div>
+            </div>
+        </div>
+        {% endif %}
+        {% endfor %}
+    </div>
+</div>
+
+
+<div class="my-4 d-flex justify-content-center">
+    <span class="h1 ">Recolecciones Completadas</span>
+</div>
+
+<div class="container justify-content-center mb-5">
+    <div class="row g-5 justify-content-center">
+        {% for recoleccion in recolecciones %}
+        {% if recoleccion.5 == 'Completada' %}
+        <div class="col-4">
+            <div class="card">
+                <div class="card-body">
+                    
+                    <h5 class="card-title">Fecha: {{recoleccion.2}} <br> Hora: {{recoleccion.3}}</h5>
+                <h6 class="card-subtitle mb-2 text-body-secondary">Punto de recoleccion: {{recoleccion.6}}</h6>
+
+                <div class="d-flex align-middle mt-1">
+                    <i class="fa-solid fa-bottle-water ms-1 me-2 mt-1"></i>
+                    <span class="card-text fw-bold">Tipo: &nbsp;</span> 
+                    <span class="card-text">{{recoleccion.1}}</span> 
+                </div>
+
+                <div class="d-flex align-middle mt-1">
+                    <i class="bi bi-box-seam me-2"></i>
+                    <span class="card-text fw-bold">Cantidad: &nbsp;</span> 
+                    <span class="card-text ">{{recoleccion.4}} KG</span> 
+                </div>
+                
+                <div class="d-flex align-middle mt-1">
+                    <i class="bi bi-check-lg me-2"></i>
+                    <span class="card-text fw-bold">Estado: &nbsp;</span>
+                    <span class="card-text">{{recoleccion.5}}</span> 
+                </div>
+                
+                </div>
+            </div>
+        </div>
+        {% endif %}
+        {% endfor %}
+    </div>
+</div>
+
+<div class="my-4 d-flex justify-content-center">
+    <span class="h1 ">Recolecciones Canceladas</span>
+</div>
+
+<div class="container justify-content-center mb-5">
+    <div class="row g-5 justify-content-center">
+        {% for recoleccion in recolecciones %}
+        {% if recoleccion.5 == 'Cancelada' %}
+        <div class="col-4">
+            <div class="card">
+                <div class="card-body">
+                    
+                    <h5 class="card-title">Fecha: {{recoleccion.2}} <br> Hora: {{recoleccion.3}}</h5>
+                <h6 class="card-subtitle mb-2 text-body-secondary">Punto de recoleccion: {{recoleccion.6}}</h6>
+
+                <div class="d-flex align-middle mt-1">
+                    <i class="fa-solid fa-bottle-water ms-1 me-2 mt-1"></i>
+                    <span class="card-text fw-bold">Tipo: &nbsp;</span> 
+                    <span class="card-text">{{recoleccion.1}}</span> 
+                </div>
+
+                <div class="d-flex align-middle mt-1">
+                    <i class="bi bi-box-seam me-2"></i>
+                    <span class="card-text fw-bold">Cantidad: &nbsp;</span> 
+                    <span class="card-text ">{{recoleccion.4}} KG</span> 
+                </div>
+                
+                <div class="d-flex align-middle mt-1">
+                    <i class="bi bi-check-lg me-2"></i>
+                    <span class="card-text fw-bold">Estado: &nbsp;</span>
+                    <span class="card-text">{{recoleccion.5}}</span> 
+                </div>
+                
+                </div>
+            </div>
+        </div>
+        {% endif %}
+        {% endfor %}
+    </div>
+</div>
+
+{% include 'components/modals/add/agregarRecoleccion.html' %}
+
+{% endblock %}
