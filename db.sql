@@ -27,13 +27,14 @@ CREATE TABLE IF NOT EXISTS `bitacora` (
   `accion` varchar(50) NOT NULL DEFAULT '0',
   `fecha_edición` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- Volcando datos para la tabla ecommunity.bitacora: ~0 rows (aproximadamente)
 INSERT INTO `bitacora` (`id`, `tabla`, `id_registro_editado`, `accion`, `fecha_edición`) VALUES
 	(1, 'Empresas', 8, 'Información Editada', '2024-07-28 02:53:35'),
 	(2, 'Puntos_Recoleccion', 9, 'Información Editada', '2024-07-28 02:56:00'),
-	(3, 'Usuarios', 1, 'Información Editada', '2024-07-28 02:56:22');
+	(3, 'Usuarios', 1, 'Información Editada', '2024-07-28 02:56:22'),
+	(4, 'Usuarios', 16, 'Información Editada', '2024-07-28 22:15:57');
 
 -- Volcando estructura para tabla ecommunity.empresas
 CREATE TABLE IF NOT EXISTS `empresas` (
@@ -73,7 +74,7 @@ CREATE TABLE IF NOT EXISTS `horarios_recoleccion` (
   KEY `horariosPunto` (`id_puntoRecoleccion`)
 ) ENGINE=InnoDB AUTO_INCREMENT=81 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Volcando datos para la tabla ecommunity.horarios_recoleccion: ~9 rows (aproximadamente)
+-- Volcando datos para la tabla ecommunity.horarios_recoleccion: ~30 rows (aproximadamente)
 INSERT INTO `horarios_recoleccion` (`id`, `hora_inicio`, `hora_final`, `dia`, `id_puntoRecoleccion`, `horario_creacion`) VALUES
 	(6, '10:00:00', '12:00:00', 'Miércoles', 10, '2024-07-16 17:40:18'),
 	(7, '11:00:00', '13:00:00', 'Jueves', 11, '2024-07-16 17:40:18'),
@@ -115,7 +116,7 @@ CREATE TABLE IF NOT EXISTS `puntos_recoleccion` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Volcando datos para la tabla ecommunity.puntos_recoleccion: ~5 rows (aproximadamente)
+-- Volcando datos para la tabla ecommunity.puntos_recoleccion: ~7 rows (aproximadamente)
 INSERT INTO `puntos_recoleccion` (`id`, `nombre`, `ubicacion`, `fecha_creacion`) VALUES
 	(9, 'Punto Añañin', 'Ubicación A', '2024-07-16 17:35:51'),
 	(10, 'Punto B', 'Ubicación B', '2024-07-16 17:35:51'),
@@ -159,9 +160,9 @@ CREATE TABLE IF NOT EXISTS `recolecciones_usuarios` (
   KEY `recoleccion_usuario` (`id_usuario`),
   CONSTRAINT `recoleccion_puntoRecoleccion` FOREIGN KEY (`id_punto_recoleccion`) REFERENCES `puntos_recoleccion` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `recoleccion_usuario` FOREIGN KEY (`id_usuario`) REFERENCES `usuarios` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Volcando datos para la tabla ecommunity.recolecciones_usuarios: ~6 rows (aproximadamente)
+-- Volcando datos para la tabla ecommunity.recolecciones_usuarios: ~11 rows (aproximadamente)
 INSERT INTO `recolecciones_usuarios` (`id`, `tipo`, `dia`, `hora`, `cantidad`, `status`, `id_punto_recoleccion`, `id_usuario`) VALUES
 	(1, 'Vidrio', '2023-07-09', '09:00', 12, 'Completada', 10, 1),
 	(3, 'Vidrio', '2023-07-09', '08:00', 10, 'Completada', 9, 1),
@@ -173,7 +174,8 @@ INSERT INTO `recolecciones_usuarios` (`id`, `tipo`, `dia`, `hora`, `cantidad`, `
 	(9, 'Papel/Cartón', '2024-07-02', '23:19', 1, 'Pendiente', 9, 1),
 	(10, 'Papel/Cartón', '2024-07-27', '23:21', 3, 'Pendiente', 10, 1),
 	(11, 'Residuos Orgánicos', '2024-07-03', '14:10', 12.5, 'Pendiente', 17, 1),
-	(12, 'Otros', '2024-07-31', '03:11', 14, 'Pendiente', 11, 1);
+	(12, 'Otros', '2024-07-31', '03:11', 14, 'Pendiente', 11, 1),
+	(13, 'Textil', '2024-07-29', '23:45', 12, 'Cancelada', 11, 17);
 
 -- Volcando estructura para tabla ecommunity.tipos_reciclajes_empresas
 CREATE TABLE IF NOT EXISTS `tipos_reciclajes_empresas` (
@@ -222,9 +224,9 @@ CREATE TABLE IF NOT EXISTS `usuarios` (
   `rol` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '0',
   `fecha_creacion` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Volcando datos para la tabla ecommunity.usuarios: ~7 rows (aproximadamente)
+-- Volcando datos para la tabla ecommunity.usuarios: ~9 rows (aproximadamente)
 INSERT INTO `usuarios` (`id`, `nombre`, `correo`, `password`, `ubicacion`, `rol`, `fecha_creacion`) VALUES
 	(1, 'Sebastián Ramírez García', 'sebas@correos.com', 'password', 'Queretaro', 'Administrador', '2024-07-05 17:35:04'),
 	(5, 'Emiliano Alexander Pérez San Luis', 'emi@correo.com', 'emiliano123', 'Queretaro', 'Usuario', '2024-07-05 21:22:40'),
@@ -232,7 +234,9 @@ INSERT INTO `usuarios` (`id`, `nombre`, `correo`, `password`, `ubicacion`, `rol`
 	(9, 'Usuario A', 'usuarioa@example.com', 'password1', 'Queretaro', 'Administrador', '2024-07-16 23:37:00'),
 	(10, 'Usuario B', 'usuariob@example.com', 'password2', 'Queretaro', 'Usuario', '2024-07-16 23:37:00'),
 	(11, 'Usuario C', 'usuarioc@example.com', 'password3', 'Queretaro', 'Usuario', '2024-07-16 23:37:00'),
-	(12, 'Usuario D', 'usuariod@example.com', 'password4', 'Queretaro', 'Usuario', '2024-07-16 23:37:00');
+	(12, 'Usuario D', 'usuariod@example.com', 'password4', 'Queretaro', 'Usuario', '2024-07-16 23:37:00'),
+	(16, 'Admin', 'admin@correo.com', '12345678', 'Queretaro', 'Administrador', '2024-07-28 22:15:13'),
+	(17, 'Sebas', '121@qw', 'qwe', 'Queretaro', 'Usuario', '2024-07-28 23:10:11');
 
 -- Volcando estructura para procedimiento ecommunity.SP_DeleteEmpresa
 DELIMITER //
@@ -350,6 +354,19 @@ BEGIN
 END//
 DELIMITER ;
 
+-- Volcando estructura para procedimiento ecommunity.SP_Login
+DELIMITER //
+CREATE PROCEDURE `SP_Login`(
+	IN `v_correo` VARCHAR(50),
+	IN `v_password` VARCHAR(50)
+)
+    READS SQL DATA
+BEGIN
+	SELECT * FROM usuarios 
+	WHERE correo=v_correo AND PASSWORD=v_password;
+END//
+DELIMITER ;
+
 -- Volcando estructura para procedimiento ecommunity.SP_SelectEmpresas
 DELIMITER //
 CREATE PROCEDURE `SP_SelectEmpresas`()
@@ -370,14 +387,16 @@ DELIMITER ;
 
 -- Volcando estructura para procedimiento ecommunity.SP_SelectRecoleccionesUsuario
 DELIMITER //
-CREATE PROCEDURE `SP_SelectRecoleccionesUsuario`()
+CREATE PROCEDURE `SP_SelectRecoleccionesUsuario`(
+	IN `v_id` INT
+)
     READS SQL DATA
 BEGIN
 	SELECT recolecciones_usuarios.id, tipo, dia, hora, cantidad, status, puntos_recoleccion.nombre 
 	FROM recolecciones_usuarios 
 	INNER JOIN puntos_recoleccion 
 	ON puntos_recoleccion.id = recolecciones_usuarios.id_punto_recoleccion 
-	WHERE id_usuario=1 
+	WHERE id_usuario=v_id 
 	ORDER BY dia, hora;
 END//
 DELIMITER ;

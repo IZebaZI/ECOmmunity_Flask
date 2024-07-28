@@ -26,10 +26,11 @@
 {% endfor %}
 
 <div class="my-4 d-flex justify-content-center">
-    <span class="h1 ">Lista de Usuarios</span>
+    <span class="h1 bg-success-subtle border rounded border-3 border-success p-1">Lista de Usuarios</span>
 </div>
 
-<div class="m-5">
+<div class="m-3">
+    <a class='btn btn-success m-2' href='#' data-bs-toggle='modal' data-bs-target='#AgregarUsuario'>Agregar Usuario</a>
     <div class="d-flex">
         <div class="container col-9">
             <table class="table table-success table-striped text-center table-bordered border-success">
@@ -86,9 +87,6 @@
             </ol>
         </div>
     </div>
-
-    <a class='btn btn-success mx-3 mt-2' href='#' data-bs-toggle='modal' data-bs-target='#AgregarUsuario'>Agregar Usuario</a>
-
 </div>
 {% include 'components/modals/add/agregarUsuario.html' %}
 {% endblock %}

@@ -1,16 +1,39 @@
 {% extends 'layouts/guest.html' %}
 
+{% block message %}
+
+{% for mesg in get_flashed_messages() %}
+    {% if mesg == 'AccessError' %}
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <strong>Correo o contraseña incorrectos</strong> 
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% elif mesg == 'SuccessRegister' %}
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>Usuario registrado exitosamente, ya puede iniciar sesión</strong> 
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% else %}
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        <strong>¡Ocurrió un error inesperado!</strong> 
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% endif %}
+{% endfor %}
+
+{% endblock %}
+
 {% block content %}
 
-<span class="h1 mt-2">Inicio de sesión</span>
+<span class="h1 mt-2 justify-content-center">Inicio de Sesión</span>
 <div class="mt-4">
 
-    <form method="POST" action="">
+    <form action="/access" method="POST">
         
         <div class="">
             <label for="email" class="mb-2">Correo</label>
             <div class="">
-                <input id="email" type="email" class="form-control" name="email" value="" required autocomplete="email" autofocus>
+                <input id="email" type="email" class="form-control" name="txtEmail" value="" required autocomplete="email" autofocus>
             </div>
         </div>
     
@@ -18,7 +41,7 @@
             <label for="password" class="mt-3">Contraseña</label>
     
             <div class="">
-                <input id="password" type="password" class="form-control" name="password" required autocomplete="current-password">
+                <input id="password" type="password" class="form-control" name="txtPassword" required autocomplete="current-password">
             </div>
         </div>
     

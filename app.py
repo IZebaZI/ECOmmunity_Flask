@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template, jsonify, url_for, redirect, flash
+from flask import Flask, request, render_template, jsonify, url_for, redirect, flash, request, Response, session
 from flask_mysqldb import MySQL
 
 app = Flask(__name__)
@@ -10,36 +10,99 @@ app.secret_key = 'your_secret_key'
 
 mysql = MySQL(app)
 
+# LOGIN - SESIONES ------------------------------------------------------------------------------------------------------------
 @app.route('/')
 @app.route('/login')
 def login():
+    if 'id' in session:
+        if session['rol'] == 'Usuario':
+            return redirect(url_for('misRecolecciones'))
+        else:
+            return redirect(url_for('homeAdmin'))
     return render_template('views/login.html')
+
+@app.route('/access', methods=['POST'])
+def access():
+    if request.method == 'POST':
+        correo = request.form['txtEmail']
+        password = request.form['txtPassword']
+
+        cursor = mysql.connection.cursor()
+        cursor.callproc('SP_Login', (correo, password))
+        account = cursor.fetchone()
+
+        if account:
+            session['id'] = account[0]
+            session['nombre'] = account[1]
+            session['correo'] = account[2]
+            session['rol'] = account[5]
+            cursor.close()
+            if session['rol'] == 'Usuario':
+                return redirect(url_for('misRecolecciones'))
+            else:
+                return redirect(url_for('homeAdmin'))
+        else:
+            flash('AccessError')
+            return redirect(url_for('login'))
+
+@app.route('/logout')
+def logout():
+    session.clear()
+    print(session)
+    return redirect(url_for('login'))
 
 @app.route('/register')
 def register():
-    return render_template('views/register.html')
+    if 'id' in session:
+        if session['rol'] == 'Usuario':
+            return redirect(url_for('misRecolecciones'))
+        else:
+            return redirect(url_for('homeAdmin'))
+    else:
+        return render_template('views/register.html')
+
+@app.route('/registerUser', methods=['POST'])
+def registerUser():
+    if request.method == 'POST':
+        cursor = mysql.connection.cursor()
+        nombre = request.form['txtNombre']
+        correo = request.form['txtEmail']
+        password = request.form['txtPassword']
+        confirm = request.form['txtPasswordConfirmation']
+        ubicacion = request.form['txtUbicacion']
+        if password != confirm:
+            flash('PasswordError')
+            return redirect(url_for('register'))
+        else:
+            cursor.callproc('SP_InsertUsuario', (nombre, correo, password, ubicacion, 'Usuario'))
+            mysql.connection.commit()
+            flash('SuccessRegister')
+            return redirect(url_for('login'))
 
 @app.route('/home')
-def index():
+def homeAdmin():
     return render_template('views/homeAdmin.html')
 
 
 # USUARIOS ------------------------------------------------------------------------------------------------------------
 @app.route('/listaUsuarios')
 def listaUsuarios():
-    try:
-        cursor = mysql.connection.cursor()
-        cursor.callproc('SP_SelectUsuarios')
-        data = cursor.fetchall()
-        cursor.close()
-        cursor = mysql.connection.cursor()
-        cursor.callproc('SP_Select_Usuarios_Recientes')
-        recent = cursor.fetchall()
-        cursor.close()
-        return render_template('views/listaUsuarios.html', usuarios=data, recientes=recent)
-    except Exception as e:
-        print(e)
-        return 'Error al obtener los usuarios'
+    if session:
+        try:
+            cursor = mysql.connection.cursor()
+            cursor.callproc('SP_SelectUsuarios')
+            data = cursor.fetchall()
+            cursor.close()
+            cursor = mysql.connection.cursor()
+            cursor.callproc('SP_Select_Usuarios_Recientes')
+            recent = cursor.fetchall()
+            cursor.close()
+            return render_template('views/listaUsuarios.html', usuarios=data, recientes=recent)
+        except Exception as e:
+            print(e)
+            return 'Error al obtener los usuarios'
+    else:
+        return redirect(url_for('login'))
     
 @app.route('/agregarUsuario', methods=['POST'])
 def insertUsuario():
@@ -84,23 +147,26 @@ def deleteUsuario(id):
 # EMPRESAS ------------------------------------------------------------------------------------------------------------
 @app.route('/listaEmpresas')
 def listaEmpresas():
-    try:
-        cursor = mysql.connection.cursor()
-        cursor.callproc('SP_SelectEmpresas')
-        data = cursor.fetchall()
-        cursor.close()
-        cursor = mysql.connection.cursor()
-        cursor.callproc('SP_Select_Empresas_Recientes')
-        recent = cursor.fetchall()
-        cursor.close()
-        cursor = mysql.connection.cursor()
-        cursor.callproc('SP_Select_Tipos_Reciclajes_Empresas')
-        types = cursor.fetchall()
-        cursor.close()
-        return render_template('views/listaEmpresas.html', empresas=data, recientes=recent, tipos=types)
-    except Exception as e:
-        print(e)
-        return 'Error al obtener las empresas'
+    if session:
+        try:
+            cursor = mysql.connection.cursor()
+            cursor.callproc('SP_SelectEmpresas')
+            data = cursor.fetchall()
+            cursor.close()
+            cursor = mysql.connection.cursor()
+            cursor.callproc('SP_Select_Empresas_Recientes')
+            recent = cursor.fetchall()
+            cursor.close()
+            cursor = mysql.connection.cursor()
+            cursor.callproc('SP_Select_Tipos_Reciclajes_Empresas')
+            types = cursor.fetchall()
+            cursor.close()
+            return render_template('views/listaEmpresas.html', empresas=data, recientes=recent, tipos=types)
+        except Exception as e:
+            print(e)
+            return 'Error al obtener las empresas'
+    else:
+        return redirect(url_for('login'))
 
 @app.route('/agregarEmpresa', methods=['POST'])
 def insertEmpresa():
@@ -170,19 +236,22 @@ def deleteEmpresa(id):
 # PUNTOS DE RECOLECCION ----------------------------------------------------------------------------------------------------
 @app.route('/puntosRecoleccion')
 def puntosRecoleccion():
-    try:
-        cursor = mysql.connection.cursor()
-        cursor.callproc('SP_SelectPuntosRecoleccion')
-        data = cursor.fetchall()
-        cursor.close()
-        cursor = mysql.connection.cursor()
-        cursor.callproc('SP_Select_Horarios_Puntos_Recoleccion')
-        times = cursor.fetchall()
-        cursor.close()
-        return render_template('views/puntosRecoleccion.html', puntos=data, horarios=times)
-    except Exception as e:
-        print(e)
-        return 'Error al obtener los puntos de recolección'
+    if session:
+        try:
+            cursor = mysql.connection.cursor()
+            cursor.callproc('SP_SelectPuntosRecoleccion')
+            data = cursor.fetchall()
+            cursor.close()
+            cursor = mysql.connection.cursor()
+            cursor.callproc('SP_Select_Horarios_Puntos_Recoleccion')
+            times = cursor.fetchall()
+            cursor.close()
+            return render_template('views/puntosRecoleccion.html', puntos=data, horarios=times)
+        except Exception as e:
+            print(e)
+            return 'Error al obtener los puntos de recolección'
+    else:
+        return redirect(url_for('login'))
 
 @app.route('/agregarPunto', methods=['POST'])
 def insertPunto():
@@ -277,19 +346,23 @@ def deletePunto(id):
 # RECOLECCIONES ------------------------------------------------------------------------------------------------------------
 @app.route('/misRecolecciones')
 def misRecolecciones():
-    try:
-        cursor = mysql.connection.cursor()
-        cursor.callproc('SP_SelectRecoleccionesUsuario')
-        data = cursor.fetchall()
-        cursor.close()
-        cursor = mysql.connection.cursor()
-        cursor.callproc('SP_SelectPuntosRecoleccion')
-        points = cursor.fetchall()
-        cursor.close()
-        return render_template('views/misRecolecciones.html', recolecciones=data, puntos=points)
-    except Exception as e:
-        print(e)
-        return 'Error al obtener las recolecciones'
+    if session:
+        try:
+            cursor = mysql.connection.cursor()
+            id = session['id']
+            cursor.callproc('SP_SelectRecoleccionesUsuario', ([id]))
+            data = cursor.fetchall()
+            cursor.close()
+            cursor = mysql.connection.cursor()
+            cursor.callproc('SP_SelectPuntosRecoleccion')
+            points = cursor.fetchall()
+            cursor.close()
+            return render_template('views/misRecolecciones.html', recolecciones=data, puntos=points)
+        except Exception as e:
+            print(e)
+            return 'Error al obtener las recolecciones'
+    else:
+        return redirect(url_for('login'))
 
 @app.route('/agregarRecoleccion', methods=['POST'])
 def agregarRecoleccion():
@@ -300,7 +373,7 @@ def agregarRecoleccion():
         dia = request.form['txtDiaAdd']
         hora = request.form['txtHoraAdd']
         cantidad = request.form['floatCantidadAdd']
-        id = 1
+        id = session['id']
         cursor.callproc('SP_InsertRecoleccion', (tipo, dia, hora, cantidad, 'Pendiente', idPuntoRecoleccion, id))
         mysql.connection.commit()
         

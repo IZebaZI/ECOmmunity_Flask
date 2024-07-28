@@ -16,8 +16,11 @@
         <div class="container col-5">
                 <div class="card w-100 border border-success border-2" style="width: 18rem;">
                     <div class="card-body">
+                        {% block message %}
+
+                        {% endblock %}
                         <div class="d-flex justify-content-center">
-                            <a> <img class="img-fluid mb-5 mt-3" src="../../static/img/ecologo.png" style="height:auto; width:32vh"> </a>
+                            <a> <img class="img-fluid mb-3 mt-3" src="../../static/img/ecologo.png" style="height:auto; width:32vh"> </a>
                         </div>
                         {% block content%}
 
