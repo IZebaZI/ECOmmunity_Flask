@@ -2,9 +2,9 @@ from flask import Flask, request, render_template, jsonify, url_for, redirect, f
 from flask_mysqldb import MySQL
 
 app = Flask(__name__)
-app.config['MYSQL_HOST'] = 'localhost'
+app.config['MYSQL_HOST'] = 'db'
 app.config['MYSQL_USER'] = 'root'
-app.config['MYSQL_PASSWORD'] = ''
+app.config['MYSQL_PASSWORD'] = 'voo'
 app.config['MYSQL_DB'] = 'ecommunity'
 app.secret_key = 'your_secret_key'
 
@@ -410,5 +410,5 @@ def eliminarRecoleccion(id):
 def paginaerror(e):
     return 'Revisa tu sintaxis: No encontré la página especificada'
 
-if __name__ == '__main__':
-    app.run(port=3000, debug=True)
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=5000)
