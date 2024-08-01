@@ -32,16 +32,16 @@
 <div class="p-3">
 
     <div class="d-flex justify-content-center">
-        <div class="col-10 rounded-2 border border-2 border-success">
-            <img src="../../static/img/map.jpg" alt="" class="map rounded">
+        <div class="col-9 rounded-2 border border-2 border-success">
+            {{mapa|safe}}
         </div>
     </div>
 
-    <div class="d-flex justify-content-center mb-5">
+    <!-- <div class="d-flex justify-content-center mb-5">
         <a class='btn btn-success mt-5' href='#' data-bs-toggle='modal' data-bs-target='#CrearPuntoR'>Agregar Punto de Recolección</a>
-    </div>
+    </div> -->
     
-    <div class="row">
+    <div class="row mt-5">
         {% for punto in puntos%}
 
         <div class="col-sm-6">
@@ -58,13 +58,18 @@
                             <div class="d-flex">
                                 <i class="bi bi-clock-fill me-2"></i>
                                 <span class="card-title me-2 fw-bold">Horarios:</span>
-                                <p class="card-text">De {{ punto[3] }} a {{ punto[4] }}</p>
+                                <p class="card-text">
+                                    {% for horario in horarios %}
+                                        {% if punto.0 == horario.0 %}
+                                            {{horario.2}} | {{horario.3}} - {{horario.4}}<br>
+                                        {% endif %}
+                                    {% endfor %}</p>
                             </div>
-                            <div class="d-flex">
+                            <!-- <div class="d-flex">
                                 <i class="bi bi-calendar-event-fill me-2 "></i>
                                 <span class="card-title me-2 fw-bold">Días de atención:</span>
                                 <p class="card-text">{{ punto[5] }}</p>
-                            </div>
+                            </div> -->
                         </div>
 
                         <div class="flex justify-content-end row p-2 w-50">

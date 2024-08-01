@@ -1,5 +1,6 @@
-from flask import Flask, request, render_template, jsonify, url_for, redirect, flash, request, Response, session
+from flask import Flask, request, render_template, jsonify, url_for, redirect, flash, request, Response, session, render_template_string
 from flask_mysqldb import MySQL
+import folium
 
 app = Flask(__name__)
 app.config['MYSQL_HOST'] = 'localhost'
@@ -9,6 +10,8 @@ app.config['MYSQL_DB'] = 'ecommunity'
 app.secret_key = 'your_secret_key'
 
 mysql = MySQL(app)
+
+# MAPS ------------------------------------------------------------------------------------------------------------
 
 # LOGIN - SESIONES ------------------------------------------------------------------------------------------------------------
 @app.route('/')
@@ -238,15 +241,54 @@ def deleteEmpresa(id):
 def puntosRecoleccion():
     if session:
         try:
+            mapObj = folium.Map(location=[20.58997948308838, -100.3982809657538], zoom_start=13, width=1112, height=668)
+            # mapObj.save("mapa.html")
+            folium.Marker([20.546384930057098, -100.27479187552784], popup="UPQuca").add_to(mapObj)
+            mapObj.get_root().render()
+            # header = mapObj.get_root().header.render()
+            # bodyHTML = mapObj.get_root().html.render()
+            # script = mapObj.get_root().script.render()
             cursor = mysql.connection.cursor()
             cursor.callproc('SP_SelectPuntosRecoleccion')
             data = cursor.fetchall()
+            for punto in data:
+                folium.Marker([punto[3], punto[4]], popup=punto[1]).add_to(mapObj)
             cursor.close()
             cursor = mysql.connection.cursor()
             cursor.callproc('SP_Select_Horarios_Puntos_Recoleccion')
             times = cursor.fetchall()
             cursor.close()
-            return render_template('views/puntosRecoleccion.html', puntos=data, horarios=times)
+            iframe = mapObj.get_root()._repr_html_()
+            return render_template('views/puntosRecoleccion.html', puntos=data, horarios=times, mapa=iframe)
+        except Exception as e:
+            print(e)
+            return 'Error al obtener los puntos de recolección'
+    else:
+        return redirect(url_for('login'))
+    
+@app.route('/puntosRecoleccionAdmin')
+def puntosRecoleccionAdmin():
+    if session:
+        try:
+            mapObj = folium.Map(location=[20.58997948308838, -100.3982809657538], zoom_start=13, width=610, height=366)
+            # mapObj.save("mapa.html")
+            folium.Marker([20.546384930057098, -100.27479187552784], popup="UPQuca").add_to(mapObj)
+            mapObj.get_root().render()
+            # header = mapObj.get_root().header.render()
+            # bodyHTML = mapObj.get_root().html.render()
+            # script = mapObj.get_root().script.render()
+            cursor = mysql.connection.cursor()
+            cursor.callproc('SP_SelectPuntosRecoleccion')
+            data = cursor.fetchall()
+            for punto in data:
+                folium.Marker([punto[3], punto[4]], popup=punto[1]).add_to(mapObj)
+            cursor.close()
+            cursor = mysql.connection.cursor()
+            cursor.callproc('SP_Select_Horarios_Puntos_Recoleccion')
+            times = cursor.fetchall()
+            cursor.close()
+            iframe = mapObj.get_root()._repr_html_()
+            return render_template('views/puntosRecoleccionAdmin.html', puntos=data, horarios=times, mapa=iframe)
         except Exception as e:
             print(e)
             return 'Error al obtener los puntos de recolección'
@@ -259,7 +301,9 @@ def insertPunto():
         cursor = mysql.connection.cursor()
         nombre = request.form['txtNombreAdd']
         ubicacion = request.form['txtUbicacionAdd']
-        cursor.execute('SELECT F_InsertPuntoRecoleccion(%s, %s)', (nombre, ubicacion))
+        latitud = request.form['floatLatitudAdd']
+        longitud = request.form['floatLongitudAdd']
+        cursor.execute('SELECT F_InsertPuntoRecoleccion(%s, %s, %s, %s)', (nombre, ubicacion, latitud, longitud))
         mysql.connection.commit()
         id = cursor.fetchone()[0]
         cursor.close()
@@ -297,7 +341,9 @@ def updatePunto(id):
         cursor = mysql.connection.cursor()
         nombre = request.form['txtNombreEdit']
         ubicacion = request.form['txtUbicacionEdit']
-        cursor.callproc('SP_UpdatePuntoRecoleccion', (nombre, ubicacion, [id]))
+        latitud = request.form['floatLatitudEdit']
+        longitud = request.form['floatLongitudEdit']
+        cursor.callproc('SP_UpdatePuntoRecoleccion', (nombre, ubicacion, latitud, longitud, [id]))
         mysql.connection.commit()
         cursor.close()
 

@@ -13,6 +13,8 @@
                                 <tr>
                                     <th scope="col">Nombre</th>
                                     <th scope="col">Ubicación</th>
+                                    <th scope="col">Latitud</th>
+                                    <th scope="col">Longitud</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -23,6 +25,14 @@
 
                                     <td>
                                         <input type="text" class="form-control" name="txtUbicacionAdd" value="" required pattern="\S+.*">
+                                    </td>
+
+                                    <td>
+                                        <input type="number" step="any" class="form-control" name="floatLatitudAdd" value="" required pattern="\S+.*">
+                                    </td>
+
+                                    <td>
+                                        <input type="number" step="any" class="form-control" name="floatLongitudAdd" value="" required pattern="\S+.*">
                                     </td>
                                 </tr>
                             </tbody>
