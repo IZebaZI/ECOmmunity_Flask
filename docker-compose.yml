@@ -1,23 +1,24 @@
 services:
   db:
-    image: mariadb:10.5
+    image: goatcrazy/ecommunity_flask-db
     container_name: ecommunity_flask-db-1
     environment:
       MYSQL_ROOT_PASSWORD: voo
       MYSQL_DATABASE: ecommunity
     volumes:
-      - C:/laragon/www/ECOmmunity_Flask:/mnt/data
+      - db_data:/var/lib/mysql
     ports:
       - "3307:3306"
 
   web:
-    build: .
+    image: goatcrazy/ecommunity_flask-web
     ports:
       - "5001:5000"
     volumes:
       - .:/app
     environment:
       FLASK_ENV: development
+      DATABASE_URL: mysql+pymysql://root:voo@db:3306/ecommunity
     depends_on:
       - db
 

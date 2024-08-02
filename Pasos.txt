@@ -1,0 +1,27 @@
+---------------------------------------------------------------------------------------------------------------------
+Paso General:
+Dar ejecución de todo bajada de imágenes junto con construcción de la aplicación
+docker-compose up --build
+---------------------------------------------------------------------------------------------------------------------
+Pasos para one for one:
+Para poder dockerizar en otros dispositivos lo primero que hay que realizar
+es la descarga de las imágenes subida dentro de DockerHUB en la cual podemos 
+bajar con los siguientes comandos 
+db:
+docker pull goatcrazy/ecommunity_flask-web
+docker pull goatcrazy/ecommunity_flask-db
+des pues de bajar las imagenes se debe ejecutar el docker-compose con los sig comandos:
+docker-compose up
+docker-compose up -d
+Verificar función de los container
+docker-compose ps
+Acceder a los contedores:
+docker-compose logs
+---------------------------------------------------------------------------------------------------------------------
+Para entrar dentro del contenedor de db:
+docker exec -it ecommunity_flask-db-1 sh
+mysql -u root -p
+USE ecommunity;
+SHOW TABLES;(en caso de no existir las tablas ejecutar el sql con el comando: SOURCE /mnt/data/db.sql;)
+---------------------------------------------------------------------------------------------------------------------
+Ejecución del programa 
