@@ -1,20 +1,21 @@
-version: "3.1"
-
 services:
   db:
-    image: your_username/ecommunity_flask-db:10.5
+    image: mariadb:10.5
+    container_name: ecommunity_flask-db-1
     environment:
       MYSQL_ROOT_PASSWORD: voo
       MYSQL_DATABASE: ecommunity
     volumes:
-      - db_data:/var/lib/mysql
+      - C:/laragon/www/ECOmmunity_Flask:/mnt/data
     ports:
       - "3307:3306"
 
   web:
-    image: your_username/ecommunity_flask-web:latest
+    build: .
     ports:
-      - "5000:5000"
+      - "5001:5000"
+    volumes:
+      - .:/app
     environment:
       FLASK_ENV: development
     depends_on:
