@@ -43,7 +43,7 @@ def access():
             if session['rol'] == 'Usuario':
                 return redirect(url_for('misRecolecciones'))
             else:
-                return redirect(url_for('homeAdmin'))
+                return redirect(url_for('listaPuntosRecoleccionAdmin'))
         else:
             flash('AccessError')
             return redirect(url_for('login'))
@@ -91,19 +91,22 @@ def homeAdmin():
 @app.route('/listaUsuarios')
 def listaUsuarios():
     if session:
-        try:
-            cursor = mysql.connection.cursor()
-            cursor.callproc('SP_SelectUsuarios')
-            data = cursor.fetchall()
-            cursor.close()
-            cursor = mysql.connection.cursor()
-            cursor.callproc('SP_Select_Usuarios_Recientes')
-            recent = cursor.fetchall()
-            cursor.close()
-            return render_template('views/listaUsuarios.html', usuarios=data, recientes=recent)
-        except Exception as e:
-            print(e)
-            return 'Error al obtener los usuarios'
+        if session['rol'] == 'Usuario':
+            return redirect(url_for('misRecolecciones'))
+        else:
+            try:
+                cursor = mysql.connection.cursor()
+                cursor.callproc('SP_SelectUsuarios')
+                data = cursor.fetchall()
+                cursor.close()
+                cursor = mysql.connection.cursor()
+                cursor.callproc('SP_Select_Usuarios_Recientes')
+                recent = cursor.fetchall()
+                cursor.close()
+                return render_template('views/listaUsuarios.html', usuarios=data, recientes=recent)
+            except Exception as e:
+                print(e)
+                return 'Error al obtener los usuarios'
     else:
         return redirect(url_for('login'))
     
@@ -151,23 +154,26 @@ def deleteUsuario(id):
 @app.route('/listaEmpresas')
 def listaEmpresas():
     if session:
-        try:
-            cursor = mysql.connection.cursor()
-            cursor.callproc('SP_SelectEmpresas')
-            data = cursor.fetchall()
-            cursor.close()
-            cursor = mysql.connection.cursor()
-            cursor.callproc('SP_Select_Empresas_Recientes')
-            recent = cursor.fetchall()
-            cursor.close()
-            cursor = mysql.connection.cursor()
-            cursor.callproc('SP_Select_Tipos_Reciclajes_Empresas')
-            types = cursor.fetchall()
-            cursor.close()
-            return render_template('views/listaEmpresas.html', empresas=data, recientes=recent, tipos=types)
-        except Exception as e:
-            print(e)
-            return 'Error al obtener las empresas'
+        if session['rol'] == 'Usuario':
+            return redirect(url_for('misRecolecciones'))
+        else:
+            try:
+                cursor = mysql.connection.cursor()
+                cursor.callproc('SP_SelectEmpresas')
+                data = cursor.fetchall()
+                cursor.close()
+                cursor = mysql.connection.cursor()
+                cursor.callproc('SP_Select_Empresas_Recientes')
+                recent = cursor.fetchall()
+                cursor.close()
+                cursor = mysql.connection.cursor()
+                cursor.callproc('SP_Select_Tipos_Reciclajes_Empresas')
+                types = cursor.fetchall()
+                cursor.close()
+                return render_template('views/listaEmpresas.html', empresas=data, recientes=recent, tipos=types)
+            except Exception as e:
+                print(e)
+                return 'Error al obtener las empresas'
     else:
         return redirect(url_for('login'))
 
@@ -243,7 +249,6 @@ def puntosRecoleccion():
         try:
             mapObj = folium.Map(location=[20.58997948308838, -100.3982809657538], zoom_start=13, width=1112, height=668)
             # mapObj.save("mapa.html")
-            folium.Marker([20.546384930057098, -100.27479187552784], popup="UPQuca").add_to(mapObj)
             mapObj.get_root().render()
             # header = mapObj.get_root().header.render()
             # bodyHTML = mapObj.get_root().html.render()
@@ -269,29 +274,27 @@ def puntosRecoleccion():
 @app.route('/puntosRecoleccionAdmin')
 def puntosRecoleccionAdmin():
     if session:
-        try:
-            mapObj = folium.Map(location=[20.58997948308838, -100.3982809657538], zoom_start=13, width=610, height=366)
-            # mapObj.save("mapa.html")
-            folium.Marker([20.546384930057098, -100.27479187552784], popup="UPQuca").add_to(mapObj)
-            mapObj.get_root().render()
-            # header = mapObj.get_root().header.render()
-            # bodyHTML = mapObj.get_root().html.render()
-            # script = mapObj.get_root().script.render()
-            cursor = mysql.connection.cursor()
-            cursor.callproc('SP_SelectPuntosRecoleccion')
-            data = cursor.fetchall()
-            for punto in data:
-                folium.Marker([punto[3], punto[4]], popup=punto[1]).add_to(mapObj)
-            cursor.close()
-            cursor = mysql.connection.cursor()
-            cursor.callproc('SP_Select_Horarios_Puntos_Recoleccion')
-            times = cursor.fetchall()
-            cursor.close()
-            iframe = mapObj.get_root()._repr_html_()
-            return render_template('views/puntosRecoleccionAdmin.html', puntos=data, horarios=times, mapa=iframe)
-        except Exception as e:
-            print(e)
-            return 'Error al obtener los puntos de recolección'
+        if session['rol'] == 'Usuario':
+            return redirect(url_for('puntosRecoleccion'))
+        else:
+            try:
+                mapObj = folium.Map(location=[20.58997948308838, -100.3982809657538], zoom_start=13, width=610, height=366)
+                mapObj.get_root().render()
+                cursor = mysql.connection.cursor()
+                cursor.callproc('SP_SelectPuntosRecoleccion')
+                data = cursor.fetchall()
+                for punto in data:
+                    folium.Marker([punto[3], punto[4]], popup=punto[1]).add_to(mapObj)
+                cursor.close()
+                cursor = mysql.connection.cursor()
+                cursor.callproc('SP_Select_Horarios_Puntos_Recoleccion')
+                times = cursor.fetchall()
+                cursor.close()
+                iframe = mapObj.get_root()._repr_html_()
+                return render_template('views/puntosRecoleccionAdmin.html', puntos=data, horarios=times, mapa=iframe)
+            except Exception as e:
+                print(e)
+                return 'Error al obtener los puntos de recolección'
     else:
         return redirect(url_for('login'))
 
@@ -393,20 +396,32 @@ def deletePunto(id):
 @app.route('/misRecolecciones')
 def misRecolecciones():
     if session:
-        try:
-            cursor = mysql.connection.cursor()
-            id = session['id']
-            cursor.callproc('SP_SelectRecoleccionesUsuario', ([id]))
-            data = cursor.fetchall()
-            cursor.close()
-            cursor = mysql.connection.cursor()
-            cursor.callproc('SP_SelectPuntosRecoleccion')
-            points = cursor.fetchall()
-            cursor.close()
-            return render_template('views/misRecolecciones.html', recolecciones=data, puntos=points)
-        except Exception as e:
-            print(e)
-            return 'Error al obtener las recolecciones'
+        if session['rol'] == 'Admin':
+            return redirect(url_for('puntosRecoleccionAdmin'))
+        else:
+            try:
+                mapObj = folium.Map(location=[20.58997948308838, -100.3982809657538], zoom_start=13, width=604, height=362)
+                mapObj.get_root().render()
+                cursor = mysql.connection.cursor()
+                cursor.callproc('SP_SelectPuntosRecoleccion')
+                data = cursor.fetchall()
+                for punto in data:
+                    folium.Marker([punto[3], punto[4]], popup=punto[1]).add_to(mapObj)
+                cursor.close()
+                iframe = mapObj.get_root()._repr_html_()
+                cursor = mysql.connection.cursor()
+                id = session['id']
+                cursor.callproc('SP_SelectRecoleccionesUsuario', ([id]))
+                data = cursor.fetchall()
+                cursor.close()
+                cursor = mysql.connection.cursor()
+                cursor.callproc('SP_SelectPuntosRecoleccion')
+                points = cursor.fetchall()
+                cursor.close()
+                return render_template('views/misRecolecciones.html', recolecciones=data, puntos=points, mapa=iframe)
+            except Exception as e:
+                print(e)
+                return 'Error al obtener las recolecciones'
     else:
         return redirect(url_for('login'))
 

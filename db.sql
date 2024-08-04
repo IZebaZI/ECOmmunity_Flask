@@ -27,14 +27,51 @@ CREATE TABLE IF NOT EXISTS `bitacora` (
   `accion` varchar(50) NOT NULL DEFAULT '0',
   `fecha_edición` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=42 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Volcando datos para la tabla ecommunity.bitacora: ~0 rows (aproximadamente)
+-- Volcando datos para la tabla ecommunity.bitacora: ~38 rows (aproximadamente)
 INSERT INTO `bitacora` (`id`, `tabla`, `id_registro_editado`, `accion`, `fecha_edición`) VALUES
 	(1, 'Empresas', 8, 'Información Editada', '2024-07-28 02:53:35'),
 	(2, 'Puntos_Recoleccion', 9, 'Información Editada', '2024-07-28 02:56:00'),
 	(3, 'Usuarios', 1, 'Información Editada', '2024-07-28 02:56:22'),
-	(4, 'Usuarios', 16, 'Información Editada', '2024-07-28 22:15:57');
+	(4, 'Usuarios', 16, 'Información Editada', '2024-07-28 22:15:57'),
+	(5, 'Empresas', 8, 'Información Editada', '2024-07-29 20:45:06'),
+	(6, 'Puntos_Recoleccion', 9, 'Información Editada', '2024-07-31 01:52:57'),
+	(7, 'Puntos_Recoleccion', 9, 'Información Editada', '2024-07-31 01:55:33'),
+	(8, 'Puntos_Recoleccion', 9, 'Información Editada', '2024-07-31 01:55:38'),
+	(9, 'Puntos_Recoleccion', 9, 'Información Editada', '2024-07-31 01:55:40'),
+	(10, 'Puntos_Recoleccion', 9, 'Información Editada', '2024-07-31 01:56:45'),
+	(11, 'Puntos_Recoleccion', 9, 'Información Editada', '2024-07-31 01:56:53'),
+	(12, 'Puntos_Recoleccion', 10, 'Información Editada', '2024-07-31 01:58:25'),
+	(13, 'Puntos_Recoleccion', 11, 'Información Editada', '2024-07-31 01:58:25'),
+	(14, 'Puntos_Recoleccion', 13, 'Información Editada', '2024-07-31 01:58:26'),
+	(15, 'Puntos_Recoleccion', 15, 'Información Editada', '2024-07-31 01:58:27'),
+	(16, 'Puntos_Recoleccion', 16, 'Información Editada', '2024-07-31 01:58:28'),
+	(17, 'Puntos_Recoleccion', 17, 'Información Editada', '2024-07-31 01:58:29'),
+	(18, 'Puntos_Recoleccion', 10, 'Información Editada', '2024-07-31 01:58:30'),
+	(19, 'Puntos_Recoleccion', 11, 'Información Editada', '2024-07-31 01:58:31'),
+	(20, 'Puntos_Recoleccion', 13, 'Información Editada', '2024-07-31 01:58:32'),
+	(21, 'Puntos_Recoleccion', 15, 'Información Editada', '2024-07-31 01:58:32'),
+	(22, 'Puntos_Recoleccion', 16, 'Información Editada', '2024-07-31 01:58:35'),
+	(23, 'Puntos_Recoleccion', 10, 'Información Editada', '2024-07-31 01:58:40'),
+	(24, 'Puntos_Recoleccion', 11, 'Información Editada', '2024-07-31 01:58:41'),
+	(25, 'Puntos_Recoleccion', 13, 'Información Editada', '2024-07-31 01:58:41'),
+	(26, 'Puntos_Recoleccion', 15, 'Información Editada', '2024-07-31 01:58:42'),
+	(27, 'Puntos_Recoleccion', 16, 'Información Editada', '2024-07-31 01:58:43'),
+	(28, 'Puntos_Recoleccion', 17, 'Información Editada', '2024-07-31 01:58:44'),
+	(29, 'Puntos_Recoleccion', 9, 'Información Editada', '2024-07-31 02:04:03'),
+	(30, 'Puntos_Recoleccion', 10, 'Información Editada', '2024-07-31 02:04:07'),
+	(31, 'Puntos_Recoleccion', 9, 'Información Editada', '2024-07-31 02:04:13'),
+	(32, 'Puntos_Recoleccion', 11, 'Información Editada', '2024-07-31 02:04:18'),
+	(33, 'Puntos_Recoleccion', 13, 'Información Editada', '2024-07-31 02:04:24'),
+	(34, 'Puntos_Recoleccion', 15, 'Información Editada', '2024-07-31 02:04:32'),
+	(35, 'Puntos_Recoleccion', 15, 'Información Editada', '2024-07-31 02:04:50'),
+	(36, 'Puntos_Recoleccion', 15, 'Información Editada', '2024-07-31 02:04:53'),
+	(37, 'Puntos_Recoleccion', 15, 'Información Editada', '2024-07-31 02:04:58'),
+	(38, 'Puntos_Recoleccion', 16, 'Información Editada', '2024-07-31 02:05:04'),
+	(39, 'Puntos_Recoleccion', 9, 'Información Editada', '2024-08-01 01:05:07'),
+	(40, 'Puntos_Recoleccion', 29, 'Información Editada', '2024-08-01 01:07:50'),
+	(41, 'Puntos_Recoleccion', 29, 'Información Editada', '2024-08-01 01:08:10');
 
 -- Volcando estructura para tabla ecommunity.empresas
 CREATE TABLE IF NOT EXISTS `empresas` (
@@ -72,9 +109,9 @@ CREATE TABLE IF NOT EXISTS `horarios_recoleccion` (
   `horario_creacion` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   KEY `horariosPunto` (`id_puntoRecoleccion`)
-) ENGINE=InnoDB AUTO_INCREMENT=81 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=87 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Volcando datos para la tabla ecommunity.horarios_recoleccion: ~30 rows (aproximadamente)
+-- Volcando datos para la tabla ecommunity.horarios_recoleccion: ~31 rows (aproximadamente)
 INSERT INTO `horarios_recoleccion` (`id`, `hora_inicio`, `hora_final`, `dia`, `id_puntoRecoleccion`, `horario_creacion`) VALUES
 	(6, '10:00:00', '12:00:00', 'Miércoles', 10, '2024-07-16 17:40:18'),
 	(7, '11:00:00', '13:00:00', 'Jueves', 11, '2024-07-16 17:40:18'),
@@ -103,28 +140,32 @@ INSERT INTO `horarios_recoleccion` (`id`, `hora_inicio`, `hora_final`, `dia`, `i
 	(75, '08:00', '09:00', 'Jueves', 14, '2024-07-27 20:30:07'),
 	(76, '08:00', '09:00', 'Sábado', 14, '2024-07-27 20:30:07'),
 	(77, '08:00', '09:00', 'Domingo', 14, '2024-07-27 20:30:07'),
-	(78, '08:00:00', '10:00:00', 'Lunes', 9, '2024-07-27 20:56:00'),
-	(79, '09:00:00', '11:00:00', 'Martes', 9, '2024-07-27 20:56:00'),
-	(80, '20:29', '20:29', 'Viernes', 9, '2024-07-27 20:56:00');
+	(82, '08:00:00', '10:00:00', 'Lunes', 9, '2024-07-31 19:05:07'),
+	(83, '09:00:00', '11:00:00', 'Martes', 9, '2024-07-31 19:05:07'),
+	(84, '20:29', '20:29', 'Viernes', 9, '2024-07-31 19:05:07'),
+	(86, '19:03', '07:04', 'Lunes', 29, '2024-07-31 19:08:10');
 
 -- Volcando estructura para tabla ecommunity.puntos_recoleccion
 CREATE TABLE IF NOT EXISTS `puntos_recoleccion` (
   `id` int NOT NULL AUTO_INCREMENT,
   `nombre` varchar(50) NOT NULL,
-  `ubicacion` varchar(50) NOT NULL DEFAULT '',
+  `ubicacion` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `latitud` double(20,15) NOT NULL,
+  `longitud` double(20,15) NOT NULL,
   `fecha_creacion` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- Volcando datos para la tabla ecommunity.puntos_recoleccion: ~7 rows (aproximadamente)
-INSERT INTO `puntos_recoleccion` (`id`, `nombre`, `ubicacion`, `fecha_creacion`) VALUES
-	(9, 'Punto Añañin', 'Ubicación A', '2024-07-16 17:35:51'),
-	(10, 'Punto B', 'Ubicación B', '2024-07-16 17:35:51'),
-	(11, 'Punto C', 'Ubicación C', '2024-07-16 17:35:51'),
-	(13, 'Punto Editado', 'Ubicación Editada', '2024-07-16 17:35:51'),
-	(15, 'Punto Prueba', 'Queretaro', '2024-07-20 00:47:05'),
-	(16, 'Prueba', 'Queretaro', '2024-07-27 14:47:41'),
-	(17, 'Prueba', 'Queretaro', '2024-07-27 14:48:02');
+INSERT INTO `puntos_recoleccion` (`id`, `nombre`, `ubicacion`, `latitud`, `longitud`, `fecha_creacion`) VALUES
+	(9, 'Punto UPQ', 'None', 20.546384930057098, -100.274791875527840, '2024-07-16 17:35:51'),
+	(10, 'Punto B', NULL, 22.546384930057098, -100.274791875527840, '2024-07-16 17:35:51'),
+	(11, 'Punto C', NULL, 21.546384930057098, -100.274791875527840, '2024-07-16 17:35:51'),
+	(13, 'Punto Editado', NULL, 23.546384930057098, -100.274791875527840, '2024-07-16 17:35:51'),
+	(15, 'Punto Prueba', NULL, 22.546384930057098, -100.274791875527840, '2024-07-20 00:47:05'),
+	(16, 'Prueba', NULL, 20.446384930057096, -100.274791875527840, '2024-07-27 14:47:41'),
+	(17, 'Prueba', NULL, 20.546384930057098, -100.274791875527840, '2024-07-27 14:48:02'),
+	(29, 'Prueba', 'Queretaro', 21.646510000000000, -100.482768000000000, '2024-07-31 19:03:28');
 
 -- Volcando estructura para tabla ecommunity.puntos_recoleccion_empresa
 CREATE TABLE IF NOT EXISTS `puntos_recoleccion_empresa` (
@@ -160,7 +201,7 @@ CREATE TABLE IF NOT EXISTS `recolecciones_usuarios` (
   KEY `recoleccion_usuario` (`id_usuario`),
   CONSTRAINT `recoleccion_puntoRecoleccion` FOREIGN KEY (`id_punto_recoleccion`) REFERENCES `puntos_recoleccion` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `recoleccion_usuario` FOREIGN KEY (`id_usuario`) REFERENCES `usuarios` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- Volcando datos para la tabla ecommunity.recolecciones_usuarios: ~11 rows (aproximadamente)
 INSERT INTO `recolecciones_usuarios` (`id`, `tipo`, `dia`, `hora`, `cantidad`, `status`, `id_punto_recoleccion`, `id_usuario`) VALUES
@@ -175,7 +216,9 @@ INSERT INTO `recolecciones_usuarios` (`id`, `tipo`, `dia`, `hora`, `cantidad`, `
 	(10, 'Papel/Cartón', '2024-07-27', '23:21', 3, 'Pendiente', 10, 1),
 	(11, 'Residuos Orgánicos', '2024-07-03', '14:10', 12.5, 'Pendiente', 17, 1),
 	(12, 'Otros', '2024-07-31', '03:11', 14, 'Pendiente', 11, 1),
-	(13, 'Textil', '2024-07-29', '23:45', 12, 'Cancelada', 11, 17);
+	(13, 'Textil', '2024-07-29', '23:45', 12, 'Cancelada', 11, 17),
+	(14, 'Baterías', '2024-07-29', '05:45', 20, 'Cancelada', 13, 18),
+	(15, 'Baterías', '2024-08-11', '12:41', 12, 'Pendiente', 13, 17);
 
 -- Volcando estructura para tabla ecommunity.tipos_reciclajes_empresas
 CREATE TABLE IF NOT EXISTS `tipos_reciclajes_empresas` (
@@ -185,7 +228,7 @@ CREATE TABLE IF NOT EXISTS `tipos_reciclajes_empresas` (
   PRIMARY KEY (`id`),
   KEY `empresa_reciclaje` (`id_empresa`),
   CONSTRAINT `empresa_reciclaje` FOREIGN KEY (`id_empresa`) REFERENCES `empresas` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=55 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=57 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- Volcando datos para la tabla ecommunity.tipos_reciclajes_empresas: ~24 rows (aproximadamente)
 INSERT INTO `tipos_reciclajes_empresas` (`id`, `tipo_reciclaje`, `id_empresa`) VALUES
@@ -211,8 +254,8 @@ INSERT INTO `tipos_reciclajes_empresas` (`id`, `tipo_reciclaje`, `id_empresa`) V
 	(42, 'Tierra/Escombros', 26),
 	(45, 'Textil', 24),
 	(46, 'Residuos Orgánicos', 24),
-	(53, 'Papel', 8),
-	(54, 'Baterías', 8);
+	(55, 'Papel', 8),
+	(56, 'Aparatos Electrónicos', 8);
 
 -- Volcando estructura para tabla ecommunity.usuarios
 CREATE TABLE IF NOT EXISTS `usuarios` (
@@ -224,7 +267,7 @@ CREATE TABLE IF NOT EXISTS `usuarios` (
   `rol` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '0',
   `fecha_creacion` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- Volcando datos para la tabla ecommunity.usuarios: ~9 rows (aproximadamente)
 INSERT INTO `usuarios` (`id`, `nombre`, `correo`, `password`, `ubicacion`, `rol`, `fecha_creacion`) VALUES
@@ -236,7 +279,8 @@ INSERT INTO `usuarios` (`id`, `nombre`, `correo`, `password`, `ubicacion`, `rol`
 	(11, 'Usuario C', 'usuarioc@example.com', 'password3', 'Queretaro', 'Usuario', '2024-07-16 23:37:00'),
 	(12, 'Usuario D', 'usuariod@example.com', 'password4', 'Queretaro', 'Usuario', '2024-07-16 23:37:00'),
 	(16, 'Admin', 'admin@correo.com', '12345678', 'Queretaro', 'Administrador', '2024-07-28 22:15:13'),
-	(17, 'Sebas', '121@qw', 'qwe', 'Queretaro', 'Usuario', '2024-07-28 23:10:11');
+	(17, 'Sebas', '121@qw', 'qwe', 'Queretaro', 'Usuario', '2024-07-28 23:10:11'),
+	(18, 'Sebas', '121@qw', 'sebas123', 'AASASXD:V', 'Usuario', '2024-07-29 20:43:21');
 
 -- Volcando estructura para procedimiento ecommunity.SP_DeleteEmpresa
 DELIMITER //
@@ -392,7 +436,7 @@ CREATE PROCEDURE `SP_SelectRecoleccionesUsuario`(
 )
     READS SQL DATA
 BEGIN
-	SELECT recolecciones_usuarios.id, tipo, dia, hora, cantidad, status, puntos_recoleccion.nombre 
+	SELECT recolecciones_usuarios.id, tipo, dia, hora, cantidad, status, puntos_recoleccion.nombre, puntos_recoleccion.ubicacion 
 	FROM recolecciones_usuarios 
 	INNER JOIN puntos_recoleccion 
 	ON puntos_recoleccion.id = recolecciones_usuarios.id_punto_recoleccion 
@@ -473,12 +517,14 @@ DELIMITER //
 CREATE PROCEDURE `SP_UpdatePuntoRecoleccion`(
 	IN `v_nombre` VARCHAR(50),
 	IN `v_ubicacion` VARCHAR(50),
+	IN `v_latitud` DOUBLE(20,15),
+	IN `v_longitud` DOUBLE(20,15),
 	IN `v_id` INT
 )
     MODIFIES SQL DATA
 BEGIN
 	UPDATE puntos_recoleccion 
-	SET nombre=v_nombre, ubicacion=v_ubicacion 
+	SET nombre=v_nombre, ubicacion=v_ubicacion, latitud=v_latitud, longitud=v_longitud
 	WHERE id=v_id;
 END//
 DELIMITER ;
@@ -548,15 +594,17 @@ DELIMITER ;
 DELIMITER //
 CREATE FUNCTION `F_InsertPuntoRecoleccion`(
 	`v_nombre` VARCHAR(100),
-	`v_ubicacion` VARCHAR(50)
+	`v_ubicacion` VARCHAR(50),
+	`v_latitud` DOUBLE(20,15),
+	`v_longitud` DOUBLE(20,15)
 ) RETURNS int
     MODIFIES SQL DATA
     DETERMINISTIC
 BEGIN
 	DECLARE v_id INT;
 	#INSERT Punto de Recolección
-	INSERT INTO puntos_recoleccion (nombre, ubicacion) 
-	VALUES (v_nombre, v_ubicacion);
+	INSERT INTO puntos_recoleccion (nombre, ubicacion, latitud, longitud) 
+	VALUES (v_nombre, v_ubicacion, v_latitud, v_longitud);
 	
 	#SELECT Id
 	SELECT id INTO v_id

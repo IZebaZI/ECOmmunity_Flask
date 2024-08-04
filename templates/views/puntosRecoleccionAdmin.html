@@ -23,8 +23,8 @@
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
     {% endif %}
-{% endfor %}
-
+    {% endfor %}
+    
 <div class="my-4 d-flex justify-content-center">
     <span class="h1 bg-success-subtle border rounded border-3 border-success p-1">Puntos de recolección</span>
 </div>
@@ -75,11 +75,11 @@
                     {% endfor %}
                 </tbody>
             </table>
-            <a class='btn btn-success mt-2' href='#' data-bs-toggle='modal' data-bs-target='#CrearPuntoR'>Agregar Punto de Recolección</a>
         </div>
         
         <div class="col align-self-start col-5 bg-success-subtle p-2 rounded-2">
             {{mapa|safe}}
+            <a class='btn btn-success mt-3' href='#' data-bs-toggle='modal' data-bs-target='#CrearPuntoR'>Agregar Punto de Recolección</a>
         </div>
     </div>
 </div>

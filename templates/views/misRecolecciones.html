@@ -1,4 +1,4 @@
-{%extends "layouts/template.html"%}
+{%extends "layouts/templateUser.html"%}
 
 {% block body %}
 {% for mesg in get_flashed_messages() %}
@@ -37,6 +37,7 @@
                     <tr>
                         <th scope="col">Tipo</th>
                         <th scope="col">Punto de recolección</th>
+                        <th scope="col">Ubicación</th>
                         <th scope="col">Día</th>
                         <th scope="col">Hora</th>
                         <th scope="col">Cantidad</th>
@@ -49,6 +50,7 @@
                         {% for recoleccion in recolecciones %}
                         <td>{{recoleccion.1}}</td>
                         <td>{{recoleccion.6}}</td>
+                        <td>{{recoleccion.7}}</td>
                         <td>{{recoleccion.2}}</td>
                         <td>{{recoleccion.3}}</td>
                         <td>{{recoleccion.4}} KG</td>
@@ -82,8 +84,8 @@
 
         </div>
 
-        <div class="container d-flex col-5 bg-success-subtle p-2 rounded-2">
-            <img src="{{ url_for('static', filename='img/map.jpg') }}" class="img-fluid"/>
+        <div class="vol align-self-start col-5 bg-success-subtle p-2 rounded-2">
+            {{mapa|safe}}
         </div>
         
     </div>

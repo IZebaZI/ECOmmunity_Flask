@@ -1,4 +1,4 @@
-{%extends "layouts/template.html"%}
+{%extends "layouts/templateUser.html"%}
 
 {% block body %}
 {% for mesg in get_flashed_messages() %}
@@ -72,29 +72,27 @@
                             </div> -->
                         </div>
 
-                        <div class="flex justify-content-end row p-2 w-50">
+                        <div class="flex justify-content-center row p-2 w-50">
                             
                             <a href="#" class="btn text-danger">
                                 Mostrar en el mapa
                                 <i class="bi bi-box-arrow-up-right ms-2"></i>
                             </a>
                             
-                            <div class="d-flex justify-content-between align-text-bottom">
-                                
+                            <div class="d-flex justify-content-center align-text-bottom">
                                 <a class="text-warning align-text-bottom">Agendar Recolección</a>
-
-                                <div class="nav-item dropdown text-center">
+                                <!-- <div class="nav-item dropdown text-center">
                                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Opciones</a>
                                     <ul class="dropdown-menu">
                                         <li><a class='dropdown-item text-info' href='#' data-bs-toggle='modal' data-bs-target='#EditarPuntoR{{punto.0}}'>Modificar</a></li>
                                         <li><hr class="dropdown-divider"></li>
                                         <li><a class="dropdown-item text-danger" href="#" data-bs-toggle='modal' data-bs-target='#EliminarPuntoR{{punto.0}}'>Eliminar</a></li>
                                     </ul>
-                                </div>
+                                </div> -->
                             </div>
 
-                            {% include 'components/modals/delete/eliminarPuntoR.html' %}
-                            {% include 'components/modals/edit/modificarPuntoR.html' %}  
+                            <!-- {% include 'components/modals/delete/eliminarPuntoR.html' %}
+                            {% include 'components/modals/edit/modificarPuntoR.html' %}   -->
 
                         </div>
                     </div>
