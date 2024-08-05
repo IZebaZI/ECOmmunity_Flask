@@ -1,3 +1,5 @@
+name: ecommunity
+
 services:
   db:
     image: mariadb:10.5
@@ -9,9 +11,12 @@ services:
       - C:/laragon/www/ECOmmunity_Flask:/mnt/data
     ports:
       - "3307:3306"
+    networks:
+      - ecommunity
 
   web:
     build: .
+    container_name: ecommunity-web
     ports:
       - "5000:5000"
     volumes:
@@ -20,6 +25,12 @@ services:
       FLASK_APP: app.py
     depends_on:
       - db
+    networks:
+      - ecommunity
 
 volumes:
   db_data:
+
+networks:
+  ecommunity:
+    driver: bridge

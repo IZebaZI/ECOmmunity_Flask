@@ -1,0 +1,2 @@
+Para que puedan localizar en el siguiente archivo los dos comandos que deben de utilizar son los siguientes.:
+docker-compose up --build 

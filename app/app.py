@@ -3,9 +3,9 @@ from flask_mysqldb import MySQL
 import folium
 
 app = Flask(__name__)
-app.config['MYSQL_HOST'] = 'localhost'
+app.config['MYSQL_HOST'] = 'db'
 app.config['MYSQL_USER'] = 'root'
-app.config['MYSQL_PASSWORD'] = 'victor20$'
+app.config['MYSQL_PASSWORD'] = 'voo'
 app.config['MYSQL_DB'] = 'ecommunity'
 app.secret_key = 'your_secret_key'
 
@@ -472,4 +472,4 @@ def paginaerror(e):
     return 'Revisa tu sintaxis: No encontré la página especificada'
 
 if __name__ == '__main__':
-    app.run(port=5000, debug=True)
+    app.run(host='0.0.0.0',port=5000, debug=True)

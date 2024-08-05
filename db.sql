@@ -1,3 +1,14 @@
+
+-- Creando la tabla bitacora si no existe
+CREATE TABLE IF NOT EXISTS `bitacora` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `tabla` varchar(255) NOT NULL,
+  `id_registro_editado` int NOT NULL,
+  `accion` varchar(255) NOT NULL,
+  `fecha` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
 -- --------------------------------------------------------
 -- Host:                         127.0.0.1
 -- Versión del servidor:         8.0.30 - MySQL Community Server - GPL
@@ -16,7 +27,7 @@
 
 
 -- Volcando estructura de base de datos para ecommunity
-CREATE DATABASE IF NOT EXISTS `ecommunity` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
+CREATE DATABASE IF NOT EXISTS `ecommunity` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
 USE `ecommunity`;
 
 -- Volcando estructura para tabla ecommunity.bitacora
@@ -27,7 +38,7 @@ CREATE TABLE IF NOT EXISTS `bitacora` (
   `accion` varchar(50) NOT NULL DEFAULT '0',
   `fecha_edición` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=42 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=42 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- Volcando datos para la tabla ecommunity.bitacora: ~38 rows (aproximadamente)
 INSERT INTO `bitacora` (`id`, `tabla`, `id_registro_editado`, `accion`, `fecha_edición`) VALUES
@@ -82,7 +93,7 @@ CREATE TABLE IF NOT EXISTS `empresas` (
   `telefono` int NOT NULL DEFAULT '0',
   `fecha_creacion` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- Volcando datos para la tabla ecommunity.empresas: ~12 rows (aproximadamente)
 INSERT INTO `empresas` (`id`, `nombre`, `ubicacion`, `correo`, `telefono`, `fecha_creacion`) VALUES
@@ -104,12 +115,12 @@ CREATE TABLE IF NOT EXISTS `horarios_recoleccion` (
   `id` int NOT NULL AUTO_INCREMENT,
   `hora_inicio` varchar(50) NOT NULL,
   `hora_final` varchar(50) NOT NULL,
-  `dia` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `dia` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `id_puntoRecoleccion` int NOT NULL,
   `horario_creacion` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   KEY `horariosPunto` (`id_puntoRecoleccion`)
-) ENGINE=InnoDB AUTO_INCREMENT=87 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=87 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- Volcando datos para la tabla ecommunity.horarios_recoleccion: ~31 rows (aproximadamente)
 INSERT INTO `horarios_recoleccion` (`id`, `hora_inicio`, `hora_final`, `dia`, `id_puntoRecoleccion`, `horario_creacion`) VALUES
@@ -149,12 +160,12 @@ INSERT INTO `horarios_recoleccion` (`id`, `hora_inicio`, `hora_final`, `dia`, `i
 CREATE TABLE IF NOT EXISTS `puntos_recoleccion` (
   `id` int NOT NULL AUTO_INCREMENT,
   `nombre` varchar(50) NOT NULL,
-  `ubicacion` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `ubicacion` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `latitud` double(20,15) NOT NULL,
   `longitud` double(20,15) NOT NULL,
   `fecha_creacion` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- Volcando datos para la tabla ecommunity.puntos_recoleccion: ~7 rows (aproximadamente)
 INSERT INTO `puntos_recoleccion` (`id`, `nombre`, `ubicacion`, `latitud`, `longitud`, `fecha_creacion`) VALUES
@@ -177,7 +188,7 @@ CREATE TABLE IF NOT EXISTS `puntos_recoleccion_empresa` (
   KEY `id_puntos_recoleccion` (`id_punto_recoleccion`),
   CONSTRAINT `id_empresa` FOREIGN KEY (`id_empresa`) REFERENCES `empresas` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `id_puntos_recoleccion` FOREIGN KEY (`id_punto_recoleccion`) REFERENCES `puntos_recoleccion` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- Volcando datos para la tabla ecommunity.puntos_recoleccion_empresa: ~5 rows (aproximadamente)
 INSERT INTO `puntos_recoleccion_empresa` (`id`, `id_empresa`, `id_punto_recoleccion`) VALUES
@@ -193,7 +204,7 @@ CREATE TABLE IF NOT EXISTS `recolecciones_usuarios` (
   `dia` varchar(50) NOT NULL,
   `hora` varchar(50) NOT NULL,
   `cantidad` float NOT NULL,
-  `status` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '"Pendiente"',
+  `status` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '"Pendiente"',
   `id_punto_recoleccion` int NOT NULL,
   `id_usuario` int NOT NULL,
   PRIMARY KEY (`id`),
@@ -201,7 +212,7 @@ CREATE TABLE IF NOT EXISTS `recolecciones_usuarios` (
   KEY `recoleccion_usuario` (`id_usuario`),
   CONSTRAINT `recoleccion_puntoRecoleccion` FOREIGN KEY (`id_punto_recoleccion`) REFERENCES `puntos_recoleccion` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `recoleccion_usuario` FOREIGN KEY (`id_usuario`) REFERENCES `usuarios` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- Volcando datos para la tabla ecommunity.recolecciones_usuarios: ~11 rows (aproximadamente)
 INSERT INTO `recolecciones_usuarios` (`id`, `tipo`, `dia`, `hora`, `cantidad`, `status`, `id_punto_recoleccion`, `id_usuario`) VALUES
@@ -228,7 +239,7 @@ CREATE TABLE IF NOT EXISTS `tipos_reciclajes_empresas` (
   PRIMARY KEY (`id`),
   KEY `empresa_reciclaje` (`id_empresa`),
   CONSTRAINT `empresa_reciclaje` FOREIGN KEY (`id_empresa`) REFERENCES `empresas` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=57 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=57 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- Volcando datos para la tabla ecommunity.tipos_reciclajes_empresas: ~24 rows (aproximadamente)
 INSERT INTO `tipos_reciclajes_empresas` (`id`, `tipo_reciclaje`, `id_empresa`) VALUES
@@ -264,10 +275,10 @@ CREATE TABLE IF NOT EXISTS `usuarios` (
   `correo` varchar(50) NOT NULL DEFAULT '0',
   `password` varchar(50) NOT NULL DEFAULT '0',
   `ubicacion` varchar(50) NOT NULL DEFAULT '0',
-  `rol` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '0',
+  `rol` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '0',
   `fecha_creacion` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- Volcando datos para la tabla ecommunity.usuarios: ~9 rows (aproximadamente)
 INSERT INTO `usuarios` (`id`, `nombre`, `correo`, `password`, `ubicacion`, `rol`, `fecha_creacion`) VALUES

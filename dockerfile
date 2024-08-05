@@ -8,10 +8,12 @@ WORKDIR /app
 RUN apt-get update && apt-get install -y \
     build-essential \
     default-libmysqlclient-dev \
-    pkg-config
+    pkg-config && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 
 # Copia los archivos de requirements y el código de la aplicación
-COPY requirements.txt requirements.txt
+COPY ./app/requirements.txt requirements.txt
 COPY . .
 
 # Instala las dependencias de Python
