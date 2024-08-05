@@ -1,0 +1,25 @@
+services:
+  db:
+    image: mariadb:10.5
+    container_name: ecommunity-db
+    environment:
+      MYSQL_ROOT_PASSWORD: voo
+      MYSQL_DATABASE: ecommunity
+    volumes:
+      - C:/laragon/www/ECOmmunity_Flask:/mnt/data
+    ports:
+      - "3307:3306"
+
+  web:
+    build: .
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./app:/app
+    environment:
+      FLASK_APP: app.py
+    depends_on:
+      - db
+
+volumes:
+  db_data:
