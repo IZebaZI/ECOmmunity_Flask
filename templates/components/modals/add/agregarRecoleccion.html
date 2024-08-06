@@ -1,8 +1,8 @@
-<div class="modal fade" id="AgregarRecoleccion">
+<div class="modal fade" id="AgregarRecoleccion{{ punto[0] }}">
     <div class="modal-dialog modal-dialog-centered modal-xl" role="dialog" >
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="editModalLabel">Agregar recoleccion</h5>
+                <h5 class="modal-title" id="editModalLabel">Agendar recoleccion</h5>
             </button>
             </div>
             <div class="modal-body">
@@ -36,11 +36,11 @@
                                 </td>
 
                                 <td>
-                                    <select class="form-select" name="idPuntoAdd" required>
-                                        {%for punto in puntos%}
-                                        <option value="{{punto.0}}">{{punto.1}}</option>
-                                        {%endfor%}
-                                    </select>
+                                    
+                                    <input name="idPuntoAdd" value="{{punto.0}}" hidden>
+
+                                    <input class="form-control" value="{{punto.1}}" readonly>
+                                    
                                 </td>
 
                                 <td>
