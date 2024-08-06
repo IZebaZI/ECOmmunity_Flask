@@ -38,7 +38,6 @@
             <table class="table table-success table-striped text-center table-bordered border-success">
                 <thead class="text-center">
                     <tr>
-                        <th scope="col">Id</th>
                         <th scope="col">Nombre</th>
                         <th scope="col">Tipos de Reciclaje</th>
                         <th scope="col">Ubicación</th>
@@ -51,7 +50,6 @@
                 <tbody class="text-center">
                     {% for empresa in empresas %}
                     <tr>
-                        <td>{{empresa.0}}</td>
                         <td>{{empresa.1}}</td>
                         <td>
                             {% for tipo in tipos %}

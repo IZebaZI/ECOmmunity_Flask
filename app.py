@@ -436,7 +436,7 @@ def irApuntoRecoleccion(id):
 
             if session['rol'] == 'Usuario':
                 
-                mapObj = folium.Map(location=[longitud, latitud], zoom_start=0, width=1100, height=650)
+                mapObj = folium.Map(location=[longitud, latitud], zoom_start=0, width=1205, height=720)
                 mapObj.get_root().render()
                 
                 cursor = mysql.connection.cursor()
