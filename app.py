@@ -622,7 +622,10 @@ def editarEstadoRecoleccion(estado):
         return redirect(url_for('misRecolecciones'))
     
 
-
+# PERFIL USUARIO ------------------------------------------------------------------------------------------------------------
+@app.route('/miPerfil')
+def miPerfil():
+    return render_template('views/miPerfil.html')
 
 # APP ------------------------------------------------------------------------------------------------------------
 @app.errorhandler(404)
