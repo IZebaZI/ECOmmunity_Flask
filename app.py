@@ -622,10 +622,36 @@ def editarEstadoRecoleccion(estado):
         return redirect(url_for('misRecolecciones'))
     
 
+# COMUNIDAD ------------------------------------------------------------------------------------------------------------
+@app.route('/comunidad')
+def comunidad():
+    return render_template('views/comunidad.html')
+
+@app.route('/publicacion')
+@app.route('/publicacion/<id>')
+def publicacion(id = 1):
+    return render_template('views/publicacion.html')
+
+@app.route('/miPublicacion')
+@app.route('/miPublicacion/<id>')
+def miPublicacion(id = 1):
+    return render_template('views/miPublicacion.html')
+
+
 # PERFIL USUARIO ------------------------------------------------------------------------------------------------------------
 @app.route('/miPerfil')
 def miPerfil():
     return render_template('views/miPerfil.html')
+
+@app.route('/perfil/')
+@app.route('/perfil/<id>')
+def perfilVisitante(id = 1):
+    return render_template('views/perfilVisitante.html')
+
+@app.route('/admin-usuario/')
+@app.route('/admin-usuario/<id>')
+def perfilAdminUsuario(id = 1):
+    return render_template('views/perfilUsuarioAdmin.html')
 
 # APP ------------------------------------------------------------------------------------------------------------
 @app.errorhandler(404)

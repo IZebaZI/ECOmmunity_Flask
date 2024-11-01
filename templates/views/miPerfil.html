@@ -17,16 +17,16 @@
                     <li class="list-group-item"><span class="badge text-bg-primary fs-6">Primera recolección</span></li>
                     <li class="list-group-item"><span class="badge text-bg-secondary fs-6">100 KG</span></li>
                 </ul>
-                <div class="card-body text-center">
+                <div class="card-body text-center bg-success-subtle">
                     <a href="#" class="card-link">Mostrar Más</a>
                 </div>
             </div>
         </div>
 
-        <div class="col-md-5 col-sm-7">
+        <div class="col-md-4 col-sm-7">
             <div class="card">
                 <img>
-                <div class="card-body text-center">
+                <div class="card-body text-center bg-success-subtle">
                     <h5 class="card-title">Mis Datos</h5>
                 </div>
                 <ul class="list-group list-group-flush">
@@ -67,12 +67,13 @@
             </div>
         </div>
 
-        <div class="col-md-4 col-sm">
+        <div class="col-md-5 col-sm">
             <div class="card">
-                <img>
-                <div class="card-body text-center">
+                <div class="card-body d-flex justify-content-between text-center bg-success-subtle">
                     <h5 class="card-title">Mis publicaciones</h5>
+                    <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#crearPublicacion">+ Crear Publicación</button>
                 </div>
+                {% include 'components/modals/add/crearPublicacion.html' %}
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item">
                         <div class="d-flex justify-content-between">
@@ -102,8 +103,8 @@
                         <a href="#" class="card-link">Mostrar Más</a>
                     </li>
                 </ul>
-                <div class="card-body d-flex align-items-between">
-                    <a href="#" class="card-link">Lista Completa</a>
+                <div class="card-body text-center">
+                    <a href="#" class="btn btn-info">Lista Completa</a>
                 </div>
             </div>
         </div>
