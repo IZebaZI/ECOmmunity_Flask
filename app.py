@@ -614,11 +614,11 @@ def editarEstadoRecoleccion(estado):
             return redirect(url_for('misRecolecciones'))
             
         except:
-            flash('asdasdasd')
+            flash('')
             return redirect(url_for('misRecolecciones'))
         
     else:
-        flash('asdasd')
+        flash('')
         return redirect(url_for('misRecolecciones'))
     
 
@@ -637,11 +637,66 @@ def publicacion(id = 1):
 def miPublicacion(id = 1):
     return render_template('views/miPublicacion.html')
 
+@app.route('/agregarPublicacion', methods=['POST'])
+def agregarPublicacion():
+    if request.method == 'POST':
+        # cursor = mysql.connection.cursor()
+        # titulo = request.form['txtTitulo']
+        # contenido = request.form['txtContenido']
+        # tipo = request.form['txtTipo']
+        # id = session['id']
+        # cursor.callproc('SP_InsertPublicacion', (titulo, contenido, id))
+        # mysql.connection.commit()
+        # flash('SuccessAdd')
+
+        flash('Error')
+        return redirect(url_for('miPerfil'))
+
+@app.route('/editarPublicacion/<id>', methods=['POST'])
+def editarPublicacion(id):
+    if request.method == 'POST':
+        # cursor = mysql.connection.cursor()
+        # titulo = request.form['txtTitulo']
+        # contenido = request.form['txtContenido']
+        # cursor.callproc('SP_UpdatePublicacion', (titulo, contenido, [id]))
+        # mysql.connection.commit()
+        # flash('SuccessEdit')
+
+        flash('Error')
+        return redirect(url_for('miPerfil'))
+    
+@app.route('/eliminarPublicacion/<id>', methods=['POST'])
+def eliminarPublicacion(id):
+    # cursor = mysql.connection.cursor()
+    # cursor.callproc('SP_DeletePublicacion', ([id]))
+    # mysql.connection.commit()
+    # flash('SuccessDelete')
+
+    flash('Error')
+    return redirect(url_for('miPerfil'))
+
 
 # PERFIL USUARIO ------------------------------------------------------------------------------------------------------------
 @app.route('/miPerfil')
+@app.route('/miPerfil/<id>')
 def miPerfil():
     return render_template('views/miPerfil.html')
+
+@app.route('/editarMiPerfil/<id>', methods=['POST'])
+def editarMiPerfil(id):
+    if request.method == 'POST':
+        # cursor = mysql.connection.cursor()
+        # nombre = request.form['txtNombreEdit']
+        # correo = request.form['txtCorreoEdit']
+        # password = request.form['txtPasswordEdit']
+        # ubicacion = request.form['txtUbicacionEdit']
+        # cursor.callproc('SP_UpdateUsuario', (nombre, correo, password, ubicacion, session['rol'], [id]))
+        # mysql.connection.commit()
+        # flash('SuccessEdit')
+
+        flash('Error')
+        return redirect(url_for('miPerfil'))
+
 
 @app.route('/perfil/')
 @app.route('/perfil/<id>')

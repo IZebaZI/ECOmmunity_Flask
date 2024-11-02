@@ -17,7 +17,7 @@
     {% include 'components/navbarUser.html'%}
 
     <!-- MACROS -->
-    {% macro deleteModal(id='text', element='text', question='text') -%}
+    {% macro deleteModal(id='text', element='text', question='text', url='text') -%}
     <div class="modal fade" id="{{id}}">
         <div class="modal-dialog modal-dialog-centered modal-m" role="dialog" >
             <div class="modal-content">
@@ -25,7 +25,7 @@
                     <h5 class="modal-title" id="editModalLabel">Eliminar {{element}}</h5>
                 </button>
                 </div>
-                <form action="" method="POST"> 
+                <form action="/{{url}}" method="POST"> 
                     <div class="modal-body">
                         <span class="h5">{{question}}</span>
                     </div>

@@ -1,6 +1,30 @@
 {% extends "layouts/templateUser.html" %}
 {% block body %}
 
+{% for mesg in get_flashed_messages() %}
+    {% if mesg == 'SuccessAdd' %}
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>Publicación registrada exitosamente</strong> 
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% elif mesg == 'SuccessEdit' %}
+    <div class="alert alert-info alert-dismissible fade show" role="alert">
+        <strong>Publicación editada exitosamente</strong> 
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% elif mesg == 'SuccessDelete' %}
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>Publicación eliminada exitosamente</strong> 
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% else %}
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        <strong>¡Ocurrió un error inesperado!</strong> 
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% endif %}
+{% endfor %}
+
 <div class="container-fluid p-5">
     <div class="row g-3">
         <div class="col-md-3 col-sm-5">
@@ -26,6 +50,7 @@
         <div class="col-md-4 col-sm-7">
             <div class="card">
                 <img>
+                <form action="/editarMiPerfil/1" method="POST">
                 <div class="card-body text-center bg-success-subtle">
                     <h5 class="card-title">Mis Datos</h5>
                 </div>
@@ -33,37 +58,38 @@
                     <li class="list-group-item">
                         <div class="input-group mb-3">
                             <span class="input-group-text" id="basic-addon1">Nombre</span>
-                            <input type="text" class="form-control" placeholder="" aria-label="Username" aria-describedby="basic-addon1">
+                            <input type="text" class="form-control" placeholder="" aria-label="Username" aria-describedby="basic-addon1" required pattern="\S+.*">
                         </div>
                     </li>
                     <li class="list-group-item">
                         <div class="input-group mb-3">
                             <span class="input-group-text" id="basic-addon1">Correo</span>
-                            <input type="text" class="form-control" placeholder="" aria-label="Username" aria-describedby="basic-addon1">
+                            <input type="email" class="form-control" placeholder="" aria-label="Username" aria-describedby="basic-addon1" required pattern="\S+.*">
                         </div>
                     </li>
                     <li class="list-group-item">
                         <div class="input-group mb-3">
                             <span class="input-group-text" id="basic-addon1">Ubicación</span>
-                            <input type="text" class="form-control" placeholder="" aria-label="Username" aria-describedby="basic-addon1">
+                            <input type="text" class="form-control" placeholder="" aria-label="Username" aria-describedby="basic-addon1" required pattern="\S+.*">
                         </div>
                     </li>
                     <li class="list-group-item">
                         <div class="input-group mb-3">
                             <span class="input-group-text" id="basic-addon1">Contraseña</span>
-                            <input type="text" class="form-control" placeholder="" aria-label="Username" aria-describedby="basic-addon1">
+                            <input type="text" class="form-control" placeholder="" aria-label="Username" aria-describedby="basic-addon1" required pattern="\S+.*" minlength="8">
                         </div>
                     </li>
                     <li class="list-group-item">
                         <div class="input-group mb-3">
                             <span class="input-group-text" id="basic-addon1">Confirmar Contraseña</span>
-                            <input type="text" class="form-control" placeholder="" aria-label="Username" aria-describedby="basic-addon1">
+                            <input type="text" class="form-control" placeholder="" aria-label="Username" aria-describedby="basic-addon1" required pattern="\S+.*" minlength="8">
                         </div>
                     </li>
                 </ul>
                 <div class="card-body">
-                    <a href="#" class="btn btn-success">Confirmar Cambios</a>
+                    <button href="#" type="submit" class="btn btn-success">Confirmar Cambios</button>
                 </div>
+            </form>
             </div>
         </div>
 

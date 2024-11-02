@@ -5,7 +5,7 @@
                 <h5 class="modal-title" id="editModalLabel">Editar Publicación</h5>
             </div>
             <div class="modal-body">
-            <form action="" method="POST">   
+            <form action="/editarPublicacion/1" method="POST">   
                 <div class="table-responsive">
                     <table class="table">
                         <thead>
@@ -28,7 +28,7 @@
                     <div class="mb-3 mx-2">
                         <label class="form-label"><b>Contenido</b></label>
                         <textarea class="form-control" rows="3"></textarea>
-                        <label for="formFile" class="form-label mt-3"><b>Archivos</b></label>
+                        <label for="formFile" class="form-label mt-3" required pattern="\S+.*"><b>Archivos</b></label>
                         <input class="form-control" type="file" id="formFile">
                     </div>
                 </div> 

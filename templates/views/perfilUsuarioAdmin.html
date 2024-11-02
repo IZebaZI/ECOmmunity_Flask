@@ -1,6 +1,25 @@
 {% extends "layouts/templateUser.html" %}
 {% block body %}
 
+{% for mesg in get_flashed_messages() %}
+    {% if mesg == 'SuccessBan' %}
+    <div class="alert alert-info alert-dismissible fade show" role="alert">
+        <strong>Se ha suspendido al usuario exitosamente</strong> 
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% elif mesg == 'SuccessCooldown' %}
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>Se ha silenciado al usuario exitosamente</strong> 
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% else %}
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        <strong>¡Ocurrió un error inesperado!</strong> 
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% endif %}
+{% endfor %}
+
 <div class="container-fluid p-5">
     <div class="row g-3">
         <div class="col-md-3 col-sm-4">
